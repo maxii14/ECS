@@ -1,0 +1,12 @@
+Window 1280 720
+Speed 7.5f 7.5f
+Scale .5f .5f
+Position .3f .3f
+Font ../static/fonts/futura.ttf 30
+DVD ../static/img/DVDLogo.png
+CD ../static/img/CDLogo.png
+BluRay ../static/img/BluRayLogo.png
+LogoNames DVD CD BluRay
+InitialTexture DVD
+LogoColors 249 162 7
+PauseText Pause
