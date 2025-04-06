@@ -7,9 +7,9 @@
 #include <memory>
 #include <SFML/Graphics.hpp>
 
-struct Srite {
-    sf::Texture _logoTexture;
-    sf::Sprite _logoSprite;
+struct Sprite {
+    sf::Texture texture;
+    sf::Sprite sprite;
 };
 
 #endif //SPRITE_H

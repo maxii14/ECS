@@ -11,6 +11,7 @@
 
 class InitSystem {
     ConfigReader& _configReader;
+    std::shared_ptr<Sprite> _sprite;
 
 public:
     InitSystem() = default;

@@ -2,7 +2,9 @@ set(TARGET_NAME main)
 set(SOURCES main.cpp
     Window.cpp
     ImGUICustom.cpp
-    EntityManager.hpp
+    Iterator.hpp
+    World.hpp
+    EntityId.hpp
     ComponentStorage.cpp
     systems/InitSystem.cpp)
 #set(SOURCES old_main.cpp)
