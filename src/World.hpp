@@ -76,7 +76,29 @@ public:
         }
     };
 
-    template <typename T> std::shared_ptr<ComponentStorage<T>> GetRawStorage();
+    template <typename T>
+    std::shared_ptr<ComponentStorage<T>> GetRawStorage() {
+        const auto typeHash = typeid(T).hash_code();
+        const auto foundStorageIterator = _componentStoragesHash.find(typeHash);
+
+        if (foundStorageIterator != _componentStoragesHash.end())
+            return std::static_pointer_cast<ComponentStorage<T>>(foundStorageIterator->second);
+
+        int storagesCount = _componentStorages.size();
+        auto storage = std::make_shared<ComponentStorage<T>>(*this, storagesCount);
+
+        _componentStoragesHash.insert({typeHash, std::static_pointer_cast<BaseComponentStorage>(storage)});
+
+        if (storagesCount == _componentStorages.capacity()) {
+            const int newSize = _storagesCount << 1;
+            _componentStorages.reserve(newSize);
+        }
+
+        _componentStorages.push_back(std::static_pointer_cast<BaseComponentStorage>(storage));
+
+        return storage;
+    }
+    
     template <typename T> ComponentStorage<T>& GetStorage() {
         const auto typeHash = typeid(T).hash_code();
         const auto foundStorageIterator = _componentStoragesHash.find(typeHash);
@@ -86,14 +108,16 @@ public:
         
         int storagesCount = _componentStorages.size();
         auto storage = std::make_shared<ComponentStorage<T>>(*this, storagesCount);
-        _componentStoragesHash.insert({typeHash, storage});
+        //_componentStoragesHash.insert({typeHash, storage});
+        _componentStoragesHash.emplace(typeHash, std::static_pointer_cast<BaseComponentStorage>(storage));
 
         if (storagesCount == _componentStorages.capacity()) {
             const int newSize = _storagesCount << 1;
             _componentStorages.reserve(newSize);
         }
 
-        _componentStorages.push_back(storage);
+        //_componentStorages.push_back(storage);
+        _componentStorages.push_back(std::static_pointer_cast<BaseComponentStorage>(storage));
         return *storage;
     };
 };

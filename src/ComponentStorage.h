@@ -30,6 +30,7 @@ public:
     void Remove(const int entityIid);
     const std::span<const T> All();
     const std::span<const int> Entities();
+    int Count();
 };
 
 #endif //COMPONENT_STORAGE_H

@@ -61,3 +61,8 @@ template <typename T>
 const std::span<const int> ComponentStorage<T>::Entities() {
     return std::span(_dense.begin(), _count);
 }
+
+template <typename T>
+int ComponentStorage<T>::Count() {
+    return _count;
+}

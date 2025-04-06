@@ -5,8 +5,13 @@ set(SOURCES main.cpp
     Iterator.hpp
     World.hpp
     EntityId.hpp
+    Filter.hpp
+    FilterBuilder.hpp
     ComponentStorage.cpp
-    systems/InitSystem.cpp)
+    SystemsManager.hpp
+    IInitializer.hpp
+    systems/InitSystem.hpp
+    systems/MovementSystem.hpp)
 #set(SOURCES old_main.cpp)
 
 add_executable(${TARGET_NAME} 

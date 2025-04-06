@@ -11,7 +11,7 @@
 class Iterator {
     const std::span<const int> _minStorageEntities;
     const std::vector<std::shared_ptr<BaseComponentStorage>>& _storages;
-    const size_t _minStorageIndex;
+    //const size_t _minStorageIndex;
     int _currentEntity;
     size_t _current;
 
@@ -26,13 +26,13 @@ public:
     Iterator(
         size_t current, 
         std::span<const int> minStorageEntities, 
-        const std::vector<std::shared_ptr<BaseComponentStorage>>& storages, 
-        size_t minStorageIndex
+        const std::vector<std::shared_ptr<BaseComponentStorage>>& storages//, 
+        //size_t minStorageIndex
     ): 
     _current(current),
     _minStorageEntities(minStorageEntities), 
-    _storages(storages), 
-    _minStorageIndex(minStorageIndex) 
+    _storages(storages)//, 
+//    _minStorageIndex(minStorageIndex) 
     
     
     
