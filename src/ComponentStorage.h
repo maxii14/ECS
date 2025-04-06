@@ -20,7 +20,9 @@ class ComponentStorage : BaseComponentStorage {
     void Resize(const int sparseSize, const int dataSize);
 
 public:
-    ComponentStorage() = default;
+    ComponentStorage() {
+        Resize(64, 64);
+    };
 
     bool Has(const int entityIid);
     T& Get(const int entityIid);

@@ -4,7 +4,7 @@ set(SOURCES main.cpp
     ImGUICustom.cpp
     EntityManager.hpp
     ComponentStorage.cpp
-    InitSystem.cpp)
+    systems/InitSystem.cpp)
 #set(SOURCES old_main.cpp)
 
 add_executable(${TARGET_NAME} 

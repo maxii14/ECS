@@ -2,10 +2,8 @@
 #include <iostream>
 
 
-template <typename T>
-ComponentStorage<T>::ComponentStorage() {
-    Resize(64, 64);
-}
+// template <typename T>
+// ComponentStorage<T>::ComponentStorage() 
 
 template <typename T>
 void ComponentStorage<T>::Resize(const int sparseSize, const int dataSize) {

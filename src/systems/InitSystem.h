@@ -6,8 +6,8 @@
 #include <iostream>
 #include <memory>
 #include <SFML/Graphics.hpp>
-#include "ConfigReader.h"
-#include "Sprite.h"
+#include "../ConfigReader.h"
+#include "../components/Sprite.h"
 
 class InitSystem {
     ConfigReader& _configReader;
