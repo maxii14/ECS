@@ -13,7 +13,7 @@ class EntityId {
 public:
     const int Id;
     EntityId(const int id, const int gen) : _gen(gen), Id(id) { 
-        _components.reserve(6); 
+        _components.reserve(6); // под энтити резервируем 6 компонент
     }
 
     void AddComponent(int component) {

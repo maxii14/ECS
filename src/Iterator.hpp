@@ -11,7 +11,7 @@
 class Iterator {
     const std::span<const int> _minStorageEntities;
     const std::vector<std::shared_ptr<BaseComponentStorage>>& _storages;
-    //const size_t _minStorageIndex;
+    const size_t _minStorageIndex;
     int _currentEntity;
     size_t _current;
 
@@ -24,66 +24,15 @@ public:
 
     // Ищем первую сущность, в _minStorageEntities, которая будет содержаться во всех хранилищах из _storages, и записываем в _currentEntity 
     Iterator(
-        size_t current, 
-        std::span<const int> minStorageEntities, 
-        const std::vector<std::shared_ptr<BaseComponentStorage>>& storages//, 
-        //size_t minStorageIndex
-    ): 
+        size_t current,
+        std::span<const int> minStorageEntities,
+        const std::vector<std::shared_ptr<BaseComponentStorage>>& storages,
+        size_t minStorageIndex
+    ):
     _current(current),
-    _minStorageEntities(minStorageEntities), 
-    _storages(storages)//, 
-//    _minStorageIndex(minStorageIndex) 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    _minStorageEntities(minStorageEntities),
+    _storages(storages),
+    _minStorageIndex(minStorageIndex)
     {
         while (_current < _minStorageEntities.size()) {
             int entity = _minStorageEntities[_current];
@@ -104,7 +53,7 @@ public:
             ++_current;
         }
 
-        _currentEntity = -1; // end marker  
+        _currentEntity = -1;
     }
 
     bool HasAllComponents() const {

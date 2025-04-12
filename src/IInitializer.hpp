@@ -16,8 +16,8 @@ public:
 
     }
     
-    const World& GetWorld() const { 
-        return world; 
+    const World& GetWorld() const {
+        return world;
     }
 
     virtual ~IInitializer() = default;

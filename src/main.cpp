@@ -21,12 +21,13 @@ int main()
     sf::RenderWindow window(sf::VideoMode({wWidth, wHeight}), "LR2");
     window.setFramerateLimit(60);
     World world;
+    
     SystemsManager systems(world);
-    systems.AddInitializer(std::make_shared<InitSystem>(world));
-    systems.AddSystem(std::make_shared<MovementSystem>(world));
-    while (window.isOpen()) {
-        systems.Update();
-    }
+    // systems.AddInitializer(std::make_shared<InitSystem>(world));
+    // systems.AddSystem(std::make_shared<MovementSystem>(world));
+    // while (window.isOpen()) {
+    //     systems.Update();
+    // }
 
     // Window window(wWidth, wHeight, configReader);
     // window.Run();

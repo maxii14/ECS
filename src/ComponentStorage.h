@@ -8,6 +8,7 @@
 #include <SFML/Graphics.hpp>
 #include "ConfigReader.h"
 #include "BaseComponentStorage.h"
+#include "World.hpp"
 
 template <typename T>
 class ComponentStorage : BaseComponentStorage {
@@ -19,10 +20,15 @@ class ComponentStorage : BaseComponentStorage {
 
     void Resize(const int sparseSize, const int dataSize);
 
+    // shit (der'mo)
+    World& _world;
+
 public:
     ComponentStorage() {
         Resize(64, 64);
     };
+    ComponentStorage(World& world, int storagesCount);
+
 
     bool Has(const int entityIid);
     T& Get(const int entityIid);

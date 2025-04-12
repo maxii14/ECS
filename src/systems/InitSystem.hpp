@@ -26,7 +26,7 @@ public:
     void OnInit() override {
         const int player = world.CreateEntity();
         auto& positionsStorage = world.GetStorage<Position>();
-        positionsStorage.Add(player, Position(0, 0)); 
+        positionsStorage.Add(player, Position(0, 0));
     }
 };
 

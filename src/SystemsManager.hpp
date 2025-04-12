@@ -17,14 +17,16 @@ class SystemsManager {
 public:
     SystemsManager(World& world) : _world(world) { }
     SystemsManager& AddInitializer(std::shared_ptr<IInitializer> initializer) {
-
+        _newInitializers.push_back(initializer);
+        return *this;
     };
 
-    SystemsManager& AddSystem(std::shared_ptr<ISystem> system){
-
+    SystemsManager& AddSystem(std::shared_ptr<ISystem> system) {
+        _systems.push_back(system);
+        return *this;
     };
     
-    void Initialize()  {
+    void Initialize() {
         if (_newInitializers.empty()) return;
 
         for (int i = 0; i < _newInitializers.size(); i++) {

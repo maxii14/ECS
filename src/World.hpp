@@ -11,11 +11,14 @@
 #include "EntityId.hpp"
 
 class World {
-    const int DefaultEntitiesCapacity = 64;
-    std::vector<EntityId> _entities; 
-    std::vector<int> _freeEntities;
+    const int DefaultEntitiesCapacity = 64; // в мире за раз может быть 64 сущности по дефолту (без перераспределения памяти)
+    std::vector<EntityId> _entities; // сущности
+    std::vector<int> _freeEntities; // удалённые индексы сущностей
+    // отобращение хеша (ключ мапы) на указатель на BaseComponentStorage, нужна для быстрого поиска по хэшу
     std::unordered_map<size_t, std::shared_ptr<BaseComponentStorage>> _componentStoragesHash;
-    std::vector<std::shared_ptr<BaseComponentStorage>> _componentStorages; int _storagesCount = 0;
+    // массив всех указателей на BaseComponentStorage
+    std::vector<std::shared_ptr<BaseComponentStorage>> _componentStorages;
+    int _storagesCount = 0;
 public:
     World() = default;
     int CreateEntity() {
@@ -27,7 +30,7 @@ public:
         }
         else {
             entityId = _entities.size();
-            _entities.emplace_back(entityId, 1);
+            _entities.emplace_back(entityId, 1); // вставляем
         }
         return entityId;
     };
@@ -49,7 +52,7 @@ public:
         }
     };
 
-    EntityId GetPackedEntity(int e) const { 
+    EntityId GetPackedEntity(int e) const {
         return _entities[e]; 
     }
 
@@ -76,48 +79,58 @@ public:
         }
     };
 
+    // получаем ComponentStorage для определённого типа компонента по хэшу или добавляем в _componentStoragesHash
+    // новый указатель на ComponentStorage
     template <typename T>
     std::shared_ptr<ComponentStorage<T>> GetRawStorage() {
-        const auto typeHash = typeid(T).hash_code();
-        const auto foundStorageIterator = _componentStoragesHash.find(typeHash);
+        const auto typeHash = typeid(T).hash_code(); // берём хэш от типа компонента (например, Position)
+        const auto foundStorageIterator = _componentStoragesHash.find(typeHash); // итератор по _componentStoragesHash
 
+        // .end() - флаг (прошли по всему списку), != .end() => мы что-то нашли
         if (foundStorageIterator != _componentStoragesHash.end())
-            return std::static_pointer_cast<ComponentStorage<T>>(foundStorageIterator->second);
+            return std::static_pointer_cast<ComponentStorage<T>>(foundStorageIterator->second); // second - это значение, first - ключ
+
+        // не нашли никакой указатель на storage с данным типом данных T
 
         int storagesCount = _componentStorages.size();
         auto storage = std::make_shared<ComponentStorage<T>>(*this, storagesCount);
 
+        // кастим обратно в BaseComponentStorage, чтобы положить это в вектор
         _componentStoragesHash.insert({typeHash, std::static_pointer_cast<BaseComponentStorage>(storage)});
 
+        // перераспределение capacity
         if (storagesCount == _componentStorages.capacity()) {
-            const int newSize = _storagesCount << 1;
+            const int newSize = _storagesCount << 1; // увеличиваем капасити в 2 раза
             _componentStorages.reserve(newSize);
         }
 
+        // добавляем указатель на новое хранилище компонент
         _componentStorages.push_back(std::static_pointer_cast<BaseComponentStorage>(storage));
 
         return storage;
     }
     
-    template <typename T> ComponentStorage<T>& GetStorage() {
+    template <typename T>
+    ComponentStorage<T>& GetStorage() {
         const auto typeHash = typeid(T).hash_code();
         const auto foundStorageIterator = _componentStoragesHash.find(typeHash);
 
         if (foundStorageIterator != _componentStoragesHash.end())
             return *std::static_pointer_cast<ComponentStorage<T>>(foundStorageIterator->second);
-        
+
         int storagesCount = _componentStorages.size();
         auto storage = std::make_shared<ComponentStorage<T>>(*this, storagesCount);
+        _componentStoragesHash.insert({typeHash, std::static_pointer_cast<BaseComponentStorage>(storage)});
         //_componentStoragesHash.insert({typeHash, storage});
-        _componentStoragesHash.emplace(typeHash, std::static_pointer_cast<BaseComponentStorage>(storage));
 
         if (storagesCount == _componentStorages.capacity()) {
             const int newSize = _storagesCount << 1;
             _componentStorages.reserve(newSize);
         }
 
-        //_componentStorages.push_back(storage);
         _componentStorages.push_back(std::static_pointer_cast<BaseComponentStorage>(storage));
+
+//        _componentStorages.push_back(storage);
         return *storage;
     };
 };

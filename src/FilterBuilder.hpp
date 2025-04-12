@@ -21,12 +21,12 @@ public:
     template <typename T>
     FilterBuilder& With() {
         auto storage = _world.GetRawStorage<T>();
-        //_componentStorages.push_back(storage);
-        _componentStorages.push_back(std::static_pointer_cast<BaseComponentStorage>(storage));
+        _componentStorages.push_back(storage);
+
         return *this;
     }
 
-    Filter Build() const { 
+    Filter Build() const {
         return Filter(_world, _componentStorages); 
     }
 };
