@@ -1,14 +1,6 @@
 #include "ComponentStorage.h"
 #include <iostream>
 
-
-template <typename T>
-ComponentStorage<T>::ComponentStorage(World& world, int storagesCount)
-:_world(world)
-{
-    Resize(storagesCount, storagesCount);
-}
-
 template <typename T>
 void ComponentStorage<T>::Resize(const int sparseSize, const int dataSize) {
     int oldSparseSize = _sparse.size();

@@ -7,8 +7,9 @@
 #include <memory>
 #include <unordered_map>
 #include "BaseComponentStorage.h"
-#include "ComponentStorage.h"
+#include "ComponentStorage.hpp"
 #include "EntityId.hpp"
+#include "components/Position.h"
 
 class World {
     const int DefaultEntitiesCapacity = 64; // в мире за раз может быть 64 сущности по дефолту (без перераспределения памяти)
@@ -94,9 +95,9 @@ public:
 
         int storagesCount = _componentStorages.size();
         auto storage = std::make_shared<ComponentStorage<T>>(*this, storagesCount);
-
         // кастим обратно в BaseComponentStorage, чтобы положить это в вектор
-        _componentStoragesHash.insert({typeHash, std::static_pointer_cast<BaseComponentStorage>(storage)});
+        //_componentStoragesHash.insert({typeHash, std::static_pointer_cast<BaseComponentStorage>(storage)});
+        _componentStoragesHash.insert({typeHash, storage});
 
         // перераспределение capacity
         if (storagesCount == _componentStorages.capacity()) {
@@ -105,33 +106,15 @@ public:
         }
 
         // добавляем указатель на новое хранилище компонент
-        _componentStorages.push_back(std::static_pointer_cast<BaseComponentStorage>(storage));
+        //_componentStorages.push_back(std::static_pointer_cast<BaseComponentStorage>(storage));
+        _componentStorages.push_back(storage);
 
         return storage;
     }
     
     template <typename T>
     ComponentStorage<T>& GetStorage() {
-        const auto typeHash = typeid(T).hash_code();
-        const auto foundStorageIterator = _componentStoragesHash.find(typeHash);
-
-        if (foundStorageIterator != _componentStoragesHash.end())
-            return *std::static_pointer_cast<ComponentStorage<T>>(foundStorageIterator->second);
-
-        int storagesCount = _componentStorages.size();
-        auto storage = std::make_shared<ComponentStorage<T>>(*this, storagesCount);
-        _componentStoragesHash.insert({typeHash, std::static_pointer_cast<BaseComponentStorage>(storage)});
-        //_componentStoragesHash.insert({typeHash, storage});
-
-        if (storagesCount == _componentStorages.capacity()) {
-            const int newSize = _storagesCount << 1;
-            _componentStorages.reserve(newSize);
-        }
-
-        _componentStorages.push_back(std::static_pointer_cast<BaseComponentStorage>(storage));
-
-//        _componentStorages.push_back(storage);
-        return *storage;
+        return *GetRawStorage<T>();
     };
 };
 

@@ -8,10 +8,12 @@
 #include <SFML/Graphics.hpp>
 #include "ConfigReader.h"
 #include "BaseComponentStorage.h"
-#include "World.hpp"
+//#include "World.hpp"
+
+class World;
 
 template <typename T>
-class ComponentStorage : BaseComponentStorage {
+class ComponentStorage : public BaseComponentStorage {
     std::vector<T> _data; // Для плотного хранения данных
     std::vector<int> _sparse; // Для разреженного хранения индексов элементов (сущностей)
     std::vector<int> _dense; // Для плотного хранения реально существующих элементов (сущностей, на которых есть компоненты)
@@ -20,14 +22,18 @@ class ComponentStorage : BaseComponentStorage {
 
     void Resize(const int sparseSize, const int dataSize);
 
-    // shit (der'mo)
-    World& _world;
 
 public:
+    World& _world;
     ComponentStorage() {
         Resize(64, 64);
     };
-    ComponentStorage(World& world, int storagesCount);
+    ComponentStorage(World& world):_world(world) {
+        Resize(64, 64);
+    };
+    ComponentStorage(World& world, int storagesCount):_world(world) {
+        Resize(storagesCount, storagesCount);
+    };
 
 
     bool Has(const int entityIid);

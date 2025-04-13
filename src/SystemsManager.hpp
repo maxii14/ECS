@@ -9,12 +9,13 @@
 #include "IInitializer.hpp"
 
 class SystemsManager {
+public:
     std::vector<std::shared_ptr<IInitializer>> _newInitializers;
     std::vector<std::shared_ptr<IInitializer>> _initializers;
     std::vector<std::shared_ptr<ISystem>> _systems;
     World& _world;
 
-public:
+//public:
     SystemsManager(World& world) : _world(world) { }
     SystemsManager& AddInitializer(std::shared_ptr<IInitializer> initializer) {
         _newInitializers.push_back(initializer);
@@ -28,7 +29,6 @@ public:
     
     void Initialize() {
         if (_newInitializers.empty()) return;
-
         for (int i = 0; i < _newInitializers.size(); i++) {
             _newInitializers[i]->OnInit();
             _initializers.push_back(_newInitializers[i]);

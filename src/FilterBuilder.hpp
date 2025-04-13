@@ -15,12 +15,18 @@ class FilterBuilder {
     
 public:
     FilterBuilder(World& world) : _world(world) {
+        std::cout << "not reserved";
         _componentStorages.reserve(4);
+        std::cout << "reserved";
     }
 
     template <typename T>
     FilterBuilder& With() {
+        std::cout << "AA";
         auto storage = _world.GetRawStorage<T>();
+        std::cout << "BB";
+        //std::static_pointer_cast<ComponentStorage<T>>(storage)
+        std::cout << storage->a;
         _componentStorages.push_back(storage);
 
         return *this;

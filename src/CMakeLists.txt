@@ -7,7 +7,8 @@ set(SOURCES main.cpp
     EntityId.hpp
     Filter.hpp
     FilterBuilder.hpp
-    ComponentStorage.cpp
+    # ComponentStorage.cpp
+    ComponentStorage.hpp
     SystemsManager.hpp
     IInitializer.hpp
     systems/InitSystem.hpp

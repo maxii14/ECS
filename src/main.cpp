@@ -13,7 +13,7 @@ using namespace std;
 int main()
 {
     setlocale(LC_ALL, "");
-
+    cout << "AAAAAAAAAAAAAAAAA";
     ConfigReader configReader("../config.txt");
     const int wWidth = configReader.GetWindowWidth();
     const int wHeight = configReader.GetWindowHeight();
@@ -21,16 +21,16 @@ int main()
     sf::RenderWindow window(sf::VideoMode({wWidth, wHeight}), "LR2");
     window.setFramerateLimit(60);
     World world;
-    
-    SystemsManager systems(world);
-    // systems.AddInitializer(std::make_shared<InitSystem>(world));
-    // systems.AddSystem(std::make_shared<MovementSystem>(world));
-    // while (window.isOpen()) {
-    //     systems.Update();
-    // }
 
-    // Window window(wWidth, wHeight, configReader);
-    // window.Run();
+    SystemsManager systems(world);
+    systems.AddInitializer(std::make_shared<InitSystem>(world));
+    cout << systems._systems.size();
+    systems.AddSystem(std::make_shared<MovementSystem>(world));
+    cout << systems._systems.size();
+
+    while (window.isOpen()) {
+        systems.Update();
+    }
 
     return 0;
 }
