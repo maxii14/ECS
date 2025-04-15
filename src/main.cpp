@@ -12,6 +12,7 @@ using namespace std;
 
 int main()
 {
+    cout << "AAAAAAAAAAAAAAAAA";
     setlocale(LC_ALL, "");
     cout << "AAAAAAAAAAAAAAAAA";
     ConfigReader configReader("../config.txt");

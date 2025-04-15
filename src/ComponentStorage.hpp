@@ -17,7 +17,7 @@ class ComponentStorage : public BaseComponentStorage {
     std::vector<T> _data; // Для плотного хранения данных
     std::vector<int> _sparse; // Для разреженного хранения индексов элементов (сущностей)
     std::vector<int> _dense; // Для плотного хранения реально существующих элементов (сущностей, на которых есть компоненты)
-    
+
     int _count; // Текущее число элементов
 
     void Resize(const int sparseSize, const int dataSize) {
@@ -26,7 +26,7 @@ class ComponentStorage : public BaseComponentStorage {
             _sparse.resize(sparseSize);
             std::fill_n(_sparse.data() + oldSparseSize, sparseSize - oldSparseSize, -1);
         }
-    
+
         int oldDataSize = _dense.size();
         if (oldDataSize < dataSize) {
             _dense.resize(dataSize);
@@ -61,15 +61,15 @@ public:
     };
     void Add(const int entityIid, const T& value) {
         Resize((entityIid / 64 + 1) * 64, _data.size() == _count + 1 ? _data.size() + 64 : _data.size());
+        _count++;
         _data[_count] = value; // кладём в data ссылку на компонент
         _dense[_count] = entityIid; // в _dense в конец кладём entityId
         _sparse[entityIid] = _count; // в sparse в качестве индекса entityId, в качестве значения индекс на _data и _dense
-        _count++;
     };
     void Remove(const int entityIid) override {
         int arrayIndex = _sparse[entityIid]; // индекс на _data и _dense (то, что хотим удалить)
         int lastEntityIid = _dense[--_count]; // берём предыдущий entityId
-        _data[arrayIndex] = _data[_count]; 
+        _data[arrayIndex] = _data[_count];
         _dense[arrayIndex] = lastEntityIid;
         _sparse[lastEntityIid] = arrayIndex;
         _sparse[entityIid] = -1;

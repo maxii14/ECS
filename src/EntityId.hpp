@@ -12,7 +12,7 @@ class EntityId {
 
 public:
     const int Id;
-    EntityId(const int id, const int gen) : _gen(gen), Id(id) { 
+    EntityId(const int id, const int gen) : _gen(gen), Id(id) {
         _components.reserve(6); // под энтити резервируем 6 компонент
     }
 
@@ -33,12 +33,12 @@ public:
         return _gen < 0;
     };
 
-    const std::vector<int>& Components() const { 
-        return _components; 
+    const std::vector<int>& Components() const {
+        return _components;
     };
 
-    int Gen() const { 
-        return _gen; 
+    int Gen() const {
+        return _gen;
     };
 
     void Remove() {
@@ -50,8 +50,8 @@ public:
         _gen *= -1;
     };
 
-    bool Equals(const EntityId &other) const { 
-        return Id == other.Id && _gen == other._gen; 
+    bool Equals(const EntityId &other) const {
+        return Id == other.Id && _gen == other._gen;
     };
 
     bool operator ==(const EntityId& other) const;

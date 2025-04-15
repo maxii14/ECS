@@ -17,7 +17,7 @@ class Filter {
     size_t FindMinComponentStorage() const {
         size_t minIndex = 0;
         size_t minCount = _componentStorages[0]->Count();
-    
+
         for (size_t i = 1; i < _componentStorages.size(); ++i) {
             size_t count = _componentStorages[i]->Count();
             if (count < minCount) {
@@ -25,13 +25,17 @@ class Filter {
                 minIndex = i;
             }
         }
-    
+
         return minIndex;
     }
 
 public:
-    Filter(World& _, const std::vector<std::shared_ptr<BaseComponentStorage>>& componentStorages)
-    : _componentStorages(componentStorages) { 
+    Filter(
+        World& _,
+        const std::vector<
+            std::shared_ptr<BaseComponentStorage>
+        >& componentStorages)
+    : _componentStorages(componentStorages) {
 
     }
 

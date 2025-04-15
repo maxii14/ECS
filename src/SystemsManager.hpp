@@ -26,7 +26,7 @@ public:
         _systems.push_back(system);
         return *this;
     };
-    
+
     void Initialize() {
         if (_newInitializers.empty()) return;
         for (int i = 0; i < _newInitializers.size(); i++) {

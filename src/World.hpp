@@ -54,7 +54,7 @@ public:
     };
 
     EntityId GetPackedEntity(int e) const {
-        return _entities[e]; 
+        return _entities[e];
     }
 
     bool UnpackEntity(const EntityId& eId, int& e) const {
@@ -72,7 +72,7 @@ public:
 
         if (added) {
             entity.AddComponent(storageId);
-        } 
+        }
         else {
             const int newComponentsCount = entity.RemoveComponent(storageId);
             if (newComponentsCount == 0)
@@ -111,7 +111,7 @@ public:
 
         return storage;
     }
-    
+
     template <typename T>
     ComponentStorage<T>& GetStorage() {
         return *GetRawStorage<T>();
