@@ -44,7 +44,8 @@ public:
             auto& rectangle = _rectangleShapeComponents.Get(ent);
             rectangle._rectangle.setPosition({transform.position.x, transform.position.y});
             window.draw(rectangle._rectangle);
-            //std::cout << ent << " Pos: " << position.X << std::endl;
+            std::cout << ent << " Pos: " << transform.position.x << " " << transform.position.y << std::endl;
+        
         }
         for (const auto ent : _positioningTriangle) {
             //auto& position = _positionComponents.Get(ent);
@@ -52,7 +53,8 @@ public:
             auto& triangle = _triangleShapeComponents.Get(ent);
             triangle._triangle.setPosition({transform.position.x, transform.position.y});
             window.draw(triangle._triangle);
-            //std::cout << ent << " Pos: " << transform.position.x << std::endl;
+            std::cout << ent << " Pos: " << transform.position.x << " " << transform.position.y << std::endl;
+        
         }
         window.display();
     }

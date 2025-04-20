@@ -48,7 +48,7 @@ public:
     //     Resize(64, 64);
     // };
     ComponentStorage(World& world, int storagesCount):_world(world) {
-        _count = -1;
+        _count = 0;
         Resize(storagesCount, storagesCount);
     };
 
@@ -61,7 +61,6 @@ public:
     };
     void Add(const int entityIid, const T& value) {
         Resize((entityIid / 64 + 1) * 64, _data.size() == _count + 1 ? _data.size() + 64 : _data.size());
-        if (_count == -1) _count++;
         _data[_count] = value; // кладём в data ссылку на компонент
         _dense[_count] = entityIid; // в _dense в конец кладём entityId
         _sparse[entityIid] = _count; // в sparse в качестве индекса entityId, в качестве значения индекс на _data и _dense

@@ -31,7 +31,7 @@ public:
     void OnInit() override { }
 
     void OnUpdate(sf::RenderWindow& window) override {
-        for (const auto ent : _positioning) {
+        for (const auto ent : _transforming) {
             // float x = static_cast <float> (rand() % 5);
             // float y = static_cast <float> (rand() % 5);
 
@@ -40,7 +40,8 @@ public:
             // position.Y += y;
             auto& transform = _transformComponents.Get(ent);
             transform.position += transform.speed;
-            //std::cout << ent << " Pos: " << position.X << std::endl;
+            std::cout << "Speed: " << transform.speed.x << std::endl;
+            std::cout << ent << " Pos: " << transform.position.x << " " << transform.position.y << std::endl;
         }
     }
 };
