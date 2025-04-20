@@ -61,10 +61,11 @@ public:
     };
     void Add(const int entityIid, const T& value) {
         Resize((entityIid / 64 + 1) * 64, _data.size() == _count + 1 ? _data.size() + 64 : _data.size());
-        _count++;
+        if (_count == -1) _count++;
         _data[_count] = value; // кладём в data ссылку на компонент
         _dense[_count] = entityIid; // в _dense в конец кладём entityId
         _sparse[entityIid] = _count; // в sparse в качестве индекса entityId, в качестве значения индекс на _data и _dense
+        _count++;
     };
     void Remove(const int entityIid) override {
         int arrayIndex = _sparse[entityIid]; // индекс на _data и _dense (то, что хотим удалить)
