@@ -10,6 +10,7 @@
 #include "../components/Sprite.h"
 #include "../components/Position.h"
 #include "../IInitializer.hpp"
+#include "../components/RectangleShapeComponent.h"
 
 // class InitSystem {
 //     ConfigReader& _configReader;
@@ -26,8 +27,11 @@ public:
     void OnInit() override {
         const int player = world.CreateEntity();
         auto& positionsStorage = world.GetStorage<Position>();
+        auto& rectangleStorage = world.GetStorage<RectangleShapeComponent>();
         // сюда нам надо
         positionsStorage.Add(player, Position(0, 0));
+        rectangleStorage.Add(player, RectangleShapeComponent(10.0f, 10.0f));
+
     }
 };
 

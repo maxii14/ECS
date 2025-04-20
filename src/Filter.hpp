@@ -40,7 +40,7 @@ public:
     }
 
     Iterator begin() {
-        _minStorageIndex = FindMinComponentStorage();
+         _minStorageIndex = FindMinComponentStorage();
         const auto& minStorageEntities = _componentStorages[_minStorageIndex]->Entities();
         const int current = 0;
         return Iterator(current, minStorageEntities, _componentStorages, _minStorageIndex);

@@ -8,6 +8,8 @@
 #include "World.hpp"
 #include "IInitializer.hpp"
 
+#include <SFML/Graphics.hpp>
+
 class SystemsManager {
 public:
     std::vector<std::shared_ptr<IInitializer>> _newInitializers;
@@ -37,11 +39,11 @@ public:
         _newInitializers.clear();
     };
 
-    void Update() {
+    void Update(sf::RenderWindow& window) {
         Initialize();
 
         for (int i = 0; i < _systems.size(); i++) {
-            _systems[i]->OnUpdate();
+            _systems[i]->OnUpdate(window);
         }
     };
 };

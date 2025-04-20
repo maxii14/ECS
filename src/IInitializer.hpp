@@ -7,15 +7,17 @@
 #include <memory>
 #include "World.hpp"
 
+#include <SFML/Graphics.hpp>
+
 class IInitializer {
-protected: 
+protected:
     World& world;
 
 public:
     IInitializer(World &world) : world(world) {
 
     }
-    
+
     const World& GetWorld() const {
         return world;
     }
@@ -27,7 +29,7 @@ public:
 class ISystem : public IInitializer {
 public:
     ISystem(World &world) : IInitializer(world) { } ~ISystem() override = default;
-    virtual void OnUpdate() = 0;
+    virtual void OnUpdate(sf::RenderWindow& window) = 0;
 };
 
 #endif //I_INITIALIZER_H

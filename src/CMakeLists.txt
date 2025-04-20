@@ -12,10 +12,11 @@ set(SOURCES main.cpp
     SystemsManager.hpp
     IInitializer.hpp
     systems/InitSystem.hpp
-    systems/MovementSystem.hpp)
+    systems/MovementSystem.hpp
+    systems/RenderSystem.hpp)
 #set(SOURCES old_main.cpp)
 
-add_executable(${TARGET_NAME} 
+add_executable(${TARGET_NAME}
     ${SOURCES})
 
 #target_compile_options(${TARGET_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror)

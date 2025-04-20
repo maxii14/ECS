@@ -26,11 +26,11 @@ public:
 
     void OnInit() override { }
 
-    void OnUpdate() override {
+    void OnUpdate(sf::RenderWindow& window) override {
         for (const auto ent : _positioning) {
             std::cout << "cycle!!";
             auto& position = _positionComponents.Get(ent);
-            position.X += 1.5;
+            position.X += 0.0f;
             std::cout << ent << " Pos: " << position.X << std::endl;
         }
     }
