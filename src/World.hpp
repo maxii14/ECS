@@ -22,6 +22,8 @@ class World {
     int _storagesCount = 0;
 public:
     World() = default;
+    sf::RenderWindow& window;
+    World(sf::RenderWindow& _window) : window(_window) {}
     int CreateEntity() {
         int entityId;
         if (!_freeEntities.empty()) {

@@ -26,7 +26,6 @@ public:
         auto storage = _world.GetRawStorage<T>();
         std::cout << "BB";
         //std::static_pointer_cast<ComponentStorage<T>>(storage)
-        std::cout << storage->a;
         _componentStorages.push_back(storage);
 
         return *this;

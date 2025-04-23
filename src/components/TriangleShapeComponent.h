@@ -10,7 +10,6 @@ struct TriangleShapeComponent
 {
     float _radius;
     int _angles;
-    float _currAngle;
     float _color[3] = { 1.0f, 1.0f, 1.0f };
     sf::CircleShape _triangle;
 
@@ -22,6 +21,7 @@ struct TriangleShapeComponent
             _color[1]*255,
             _color[2]*255
         ));
+        _triangle.setOrigin({radius, radius});
     }
     TriangleShapeComponent(): _radius(100.0f), _angles(3)
     {

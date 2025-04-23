@@ -11,8 +11,15 @@ struct TransformComponent {
     sf::Vector2f position;
     //sf::Vector2f scale;
     sf::Vector2f speed;
+    sf::Angle rotationSpeed;
+    bool canManuallyRotate;
 
-    TransformComponent(sf::Vector2f pos, sf::Vector2f sp): position(pos), speed(sp)
+    TransformComponent(
+        sf::Vector2f pos, 
+        sf::Vector2f sp, 
+        sf::Angle rSpeed,
+        bool canRotate
+    ) : position(pos), speed(sp), rotationSpeed(rSpeed), canManuallyRotate(canRotate)
     {
        
     }

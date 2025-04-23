@@ -13,23 +13,22 @@
 #include "../FilterBuilder.hpp"
 #include "../components/RectangleShapeComponent.h"
 #include "../components/TriangleShapeComponent.h"
+#include "../components/PolygonShapeComponent.h"
 
 class RenderSystem final : public ISystem {
 public:
-    ComponentStorage<Position>& _positionComponents;
     ComponentStorage<TransformComponent>& _transformComponents;
-    ComponentStorage<RectangleShapeComponent>& _rectangleShapeComponents;
+    ComponentStorage<PolygonShapeComponent>& _polygonShapeComponents;
     ComponentStorage<TriangleShapeComponent>& _triangleShapeComponents;
-    Filter _positioningRectangle, _positioningTriangle;
+    Filter _positioningPolygon, _positioningTriangle;
     // Мы хотим изменять position, которое кладем в
 // public:
     RenderSystem(World &world)
     : ISystem(world),
-    _positionComponents(world.GetStorage<Position>()),
     _transformComponents(world.GetStorage<TransformComponent>()),
-    _rectangleShapeComponents(world.GetStorage<RectangleShapeComponent>()),
+    _polygonShapeComponents(world.GetStorage<PolygonShapeComponent>()),
     _triangleShapeComponents(world.GetStorage<TriangleShapeComponent>()),
-    _positioningRectangle(FilterBuilder(world).With<TransformComponent>().With<RectangleShapeComponent>().Build()),
+    _positioningPolygon(FilterBuilder(world).With<TransformComponent>().With<PolygonShapeComponent>().Build()),
     _positioningTriangle(FilterBuilder(world).With<TransformComponent>().With<TriangleShapeComponent>().Build()) {
         std::cout << "RenderSystem";
     }
@@ -38,23 +37,22 @@ public:
 
     void OnUpdate(sf::RenderWindow& window) override {
         window.clear();
-        for (const auto ent : _positioningRectangle) {
-            //auto& position = _positionComponents.Get(ent);
+        for (const auto ent : _positioningPolygon) {
             auto& transform = _transformComponents.Get(ent);
-            auto& rectangle = _rectangleShapeComponents.Get(ent);
-            rectangle._rectangle.setPosition({transform.position.x, transform.position.y});
-            window.draw(rectangle._rectangle);
-            std::cout << ent << " Pos: " << transform.position.x << " " << transform.position.y << std::endl;
+            auto& polygon = _polygonShapeComponents.Get(ent);
+            polygon._polygon.setPosition({transform.position.x, transform.position.y});
+            polygon._polygon.rotate(transform.rotationSpeed);
+            window.draw(polygon._polygon);
+            // std::cout << ent << " Pos rect: " << transform.position.x << " " << transform.position.y << std::endl;
         
         }
         for (const auto ent : _positioningTriangle) {
-            //auto& position = _positionComponents.Get(ent);
             auto& transform = _transformComponents.Get(ent);
             auto& triangle = _triangleShapeComponents.Get(ent);
             triangle._triangle.setPosition({transform.position.x, transform.position.y});
+            triangle._triangle.rotate(transform.rotationSpeed);
             window.draw(triangle._triangle);
-            std::cout << ent << " Pos: " << transform.position.x << " " << transform.position.y << std::endl;
-        
+            // std::cout << ent << " Pos triangle: " << transform.position.x << " " << transform.position.y << std::endl;
         }
         window.display();
     }

@@ -16,13 +16,12 @@ class MovementSystem final : public ISystem {
 public:
     ComponentStorage<Position>& _positionComponents;
     ComponentStorage<TransformComponent>& _transformComponents;
-    Filter _positioning, _transforming;
+    Filter _transforming;
 
 // public:
     MovementSystem(World &world)
     : ISystem(world),
     _positionComponents(world.GetStorage<Position>()),
-    _positioning(FilterBuilder(world).With<Position>().Build()),
     _transformComponents(world.GetStorage<TransformComponent>()),
     _transforming(FilterBuilder(world).With<TransformComponent>().Build()) {
         std::cout << "MovementSystem";
@@ -32,16 +31,10 @@ public:
 
     void OnUpdate(sf::RenderWindow& window) override {
         for (const auto ent : _transforming) {
-            // float x = static_cast <float> (rand() % 5);
-            // float y = static_cast <float> (rand() % 5);
-
-            // auto& position = _positionComponents.Get(ent);
-            // position.X += x;
-            // position.Y += y;
             auto& transform = _transformComponents.Get(ent);
             transform.position += transform.speed;
-            std::cout << "Speed: " << transform.speed.x << std::endl;
-            std::cout << ent << " Pos: " << transform.position.x << " " << transform.position.y << std::endl;
+            // std::cout << "Speed: " << transform.speed.x << std::endl;
+            // std::cout << ent << " Pos: " << transform.position.x << " " << transform.position.y << std::endl;
         }
     }
 };

@@ -13,7 +13,8 @@ set(SOURCES main.cpp
     IInitializer.hpp
     systems/InitSystem.hpp
     systems/MovementSystem.hpp
-    systems/RenderSystem.hpp)
+    systems/RenderSystem.hpp
+    systems/RotationSystem.hpp)
 #set(SOURCES old_main.cpp)
 
 add_executable(${TARGET_NAME}

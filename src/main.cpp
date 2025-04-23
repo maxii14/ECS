@@ -5,6 +5,7 @@
 #include "systems/InitSystem.hpp"
 #include "systems/MovementSystem.hpp"
 #include "systems/RenderSystem.hpp"
+#include "systems/RotationSystem.hpp"
 #include <fstream>
 #include <string>
 
@@ -22,12 +23,15 @@ int main()
 
     sf::RenderWindow window(sf::VideoMode({wWidth, wHeight}), "LR2");
     window.setFramerateLimit(60);
-    World world;
+    // Window window(wWidth, wHeight, configReader);
+    // window.Run();
+    World world(window);
 
     SystemsManager systems(world);
     systems.AddInitializer(std::make_shared<InitSystem>(world));
     systems.AddSystem(std::make_shared<MovementSystem>(world));
     systems.AddSystem(std::make_shared<RenderSystem>(world));
+    systems.AddSystem(std::make_shared<RotationSystem>(world));
 
     while (window.isOpen()) {
         systems.Update(window);

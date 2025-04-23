@@ -38,7 +38,6 @@ class ComponentStorage : public BaseComponentStorage {
 
 public:
     World& _world;
-    int a = 5;
     ComponentStorage() {
         _count = 0;
         Resize(64, 64);
