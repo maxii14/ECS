@@ -32,6 +32,8 @@ public:
             auto& transform = _transformComponents.Get(ent);
             if (transform.canManuallyRotate) 
             {
+                transform.rotationSpeed = sf::degrees(1);
+                return;
                 transform.rotationSpeed = sf::degrees(0);
                 while (const std::optional event = world.window.pollEvent())
                 {

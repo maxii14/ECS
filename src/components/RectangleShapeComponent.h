@@ -10,7 +10,7 @@ struct RectangleShapeComponent
 {
     float _xSize;
     float _ySize;
-    float _color[3] = { 1.0f, 1.0f, 1.0f };
+    float _color[3] = { 1.0f, 0.0f, 0.0f };
     sf::RectangleShape _rectangle;
 
     RectangleShapeComponent(float xSize, float ySize): _xSize(xSize), _ySize(ySize)
@@ -22,7 +22,7 @@ struct RectangleShapeComponent
             _color[2]*255
         ));
     }
-    RectangleShapeComponent(): _xSize(100.0f), _ySize(100.0f)
+    RectangleShapeComponent(): _xSize(5.0f), _ySize(2.0f)
     {
         _rectangle = sf::RectangleShape({0, 0});
         _rectangle.setFillColor(sf::Color(

@@ -6,6 +6,7 @@
 #include "systems/MovementSystem.hpp"
 #include "systems/RenderSystem.hpp"
 #include "systems/RotationSystem.hpp"
+#include "systems/ShootingSystem.hpp"
 #include <fstream>
 #include <string>
 
@@ -32,6 +33,7 @@ int main()
     systems.AddSystem(std::make_shared<MovementSystem>(world));
     systems.AddSystem(std::make_shared<RenderSystem>(world));
     systems.AddSystem(std::make_shared<RotationSystem>(world));
+    systems.AddSystem(std::make_shared<ShootingSystem>(world));
 
     while (window.isOpen()) {
         systems.Update(window);

@@ -54,7 +54,6 @@ public:
             // Позиция
             int sideX = rand() % 2, sideY = rand() % 2, side = rand() % 3;
             float posX, posY;
-            std::cout << side << "\n";
             switch (side)
             {
             case 0: // слева-справа, sideY ne ebet
