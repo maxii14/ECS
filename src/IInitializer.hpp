@@ -30,6 +30,7 @@ class ISystem : public IInitializer {
 public:
     ISystem(World &world) : IInitializer(world) { } ~ISystem() override = default;
     virtual void OnUpdate(sf::RenderWindow& window) = 0;
+    virtual void NotifyKeyboardEvent(sf::Keyboard::Key buttonCode) = 0;
 };
 
 #endif //I_INITIALIZER_H

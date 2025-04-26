@@ -13,6 +13,15 @@
 
 #include "ConfigReader.h"
 
+#include "World.hpp"
+#include "SystemsManager.hpp"
+
+#include "systems/InitSystem.hpp"
+#include "systems/MovementSystem.hpp"
+#include "systems/RenderSystem.hpp"
+#include "systems/RotationSystem.hpp"
+#include "systems/ShootingSystem.hpp"
+
 class Window {
     sf::RenderWindow _window;
 
@@ -23,6 +32,9 @@ class Window {
 
     std::shared_ptr<ImGUICustom> _imGui;
     std::vector<std::shared_ptr<DrawableEntity>> _drawableEntities;
+
+    World _world;
+    SystemsManager _systems;
 
     void Initialize();
 

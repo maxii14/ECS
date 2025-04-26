@@ -19,6 +19,7 @@ class ShootingSystem final : public ISystem {
 public:
     ComponentStorage<TransformComponent>& _transformComponents;
     Filter _transforming;
+    sf::Keyboard::Key _buttonCode = sf::Keyboard::Key::Unknown;
 
 // public:
     ShootingSystem(World &world)
@@ -30,41 +31,38 @@ public:
 
     void OnInit() override { }
 
+    void NotifyKeyboardEvent(sf::Keyboard::Key buttonCode) override {
+        _buttonCode = buttonCode;
+    }
+
     void OnUpdate(sf::RenderWindow& window) override {
         for (const auto ent : _transforming) {
             auto& transform = _transformComponents.Get(ent);
             if (transform.canManuallyRotate)
             {
-                while (const std::optional event = world.window.pollEvent())
+                if (_buttonCode == sf::Keyboard::Key::Space)
                 {
-                    if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>())
-                    {
-                        std::wcout << L"Key pressed with code = " << sf::Keyboard::getDescription(keyPressed->scancode).toWideString() << "\n";
-                        std::cout << "SHOOOOT\n";
+                    _buttonCode = sf::Keyboard::Key::Unknown;
 
-                        if (keyPressed->code == sf::Keyboard::Key::Space)
-                        {
-                            auto& rectangleStorage = world.GetStorage<RectangleShapeComponent>();
-                            auto& transformsStorage = world.GetStorage<TransformComponent>();
-                            auto& triangleStorage = world.GetStorage<TriangleShapeComponent>();
+                    auto& rectangleStorage = world.GetStorage<RectangleShapeComponent>();
+                    auto& transformsStorage = world.GetStorage<TransformComponent>();
+                    auto& triangleStorage = world.GetStorage<TriangleShapeComponent>();
 
-                            // Получаем трансформ ГЕИ
-                            int playerId = triangleStorage.Entities()[0];
-                            auto& playerTransform = _transformComponents.Get(playerId);
-                            auto& playerTriangle = triangleStorage.Get(playerId);
-                            
-                            // Создаём пулю
-                            int bullet = world.CreateEntity();
-                            // получаем вершину игрока, задаём позицию и скорость
-                            sf::Transform transform = playerTriangle._triangle.getTransform();
-                            sf::Vector2f playerGunPos = transform.transformPoint(playerTriangle._triangle.getPoint(0));
-                            float bulletSpeedX = (playerGunPos.x - playerTransform.position.x) / 10.0f;
-                            float bulletSpeedY = (playerGunPos.y - playerTransform.position.y) / 10.0f;
+                    // Получаем трансформ ГЕИ
+                    int playerId = triangleStorage.Entities()[0];
+                    auto& playerTransform = _transformComponents.Get(playerId);
+                    auto& playerTriangle = triangleStorage.Get(playerId);
+                    
+                    // Создаём пулю
+                    int bullet = world.CreateEntity();
+                    // получаем вершину игрока, задаём позицию и скорость
+                    sf::Transform transform = playerTriangle._triangle.getTransform();
+                    sf::Vector2f playerGunPos = transform.transformPoint(playerTriangle._triangle.getPoint(0));
+                    float bulletSpeedX = (playerGunPos.x - playerTransform.position.x) / 2.0f;
+                    float bulletSpeedY = (playerGunPos.y - playerTransform.position.y) / 2.0f;
 
-                            transformsStorage.Add(bullet, TransformComponent(playerGunPos, {bulletSpeedX, bulletSpeedY}, playerTriangle._triangle.getRotation(), false));
-                            rectangleStorage.Add(bullet, RectangleShapeComponent(3.0f, 10.0f));
-                        }
-                    }
+                    transformsStorage.Add(bullet, TransformComponent(playerGunPos, {bulletSpeedX, bulletSpeedY}, playerTriangle._triangle.getRotation(), false));
+                    rectangleStorage.Add(bullet, RectangleShapeComponent(3.0f, 10.0f));
                 }
             }
         }

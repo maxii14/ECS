@@ -1,10 +1,9 @@
 #include "Window.h"
 
 Window::Window(const unsigned int wWidth, const unsigned int wHeight, ConfigReader& configReader) :
-    _configReader(configReader)
+    _configReader(configReader), _window(sf::VideoMode({wWidth, wHeight}), "LR2_Liubushkin-Borovik"),
+    _world(_window), _systems(_world)
 {
-    _window.create(sf::VideoMode({wWidth, wHeight}), "LR2_Liubushkin-Borovik");
-
     auto desktop = sf::VideoMode::getDesktopMode();
     _window.setPosition({ (int) (desktop.size.x / 2 - wWidth / 2), (int) (desktop.size.y / 2 - wHeight / 2) });
     _window.setFramerateLimit(60);
@@ -14,11 +13,11 @@ Window::Window(const unsigned int wWidth, const unsigned int wHeight, ConfigRead
 
 void Window::Initialize()
 {
-    _imGui = std::make_shared<ImGUICustom>(_window, _configReader);
-    _imGui->SetInputBuffer(_configReader.GetPauseText());
-
-    // _drawableEntities.push_back(_logo);
-    // _drawableEntities.push_back(_text);
+    _systems.AddInitializer(std::make_shared<InitSystem>(_world));
+    _systems.AddSystem(std::make_shared<MovementSystem>(_world));
+    _systems.AddSystem(std::make_shared<RenderSystem>(_world));
+    _systems.AddSystem(std::make_shared<RotationSystem>(_world));
+    _systems.AddSystem(std::make_shared<ShootingSystem>(_world));
 }
 
 void Window::Run()
@@ -26,21 +25,19 @@ void Window::Run()
     while (_isRun)
     {
         sf::Time delta = _deltaClock.restart();
-        _imGui->Update(_window, delta);
+
         UpdateUserInput();
-        UpdateGui();
         Render();
     }
 
     _window.close();
-    _imGui->ShutDown();
 }
 
 void Window::UpdateUserInput()
 {
     while (const std::optional event = _window.pollEvent())
     {
-        _imGui->ProcessEvent(_window, *event);
+        // _imGui->ProcessEvent(_window, *event);
 
         if (event->is<sf::Event::Closed>())
         {
@@ -49,38 +46,26 @@ void Window::UpdateUserInput()
         else if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>())
         {
             std::wcout << L"Key pressed with code = " << sf::Keyboard::getDescription(keyPressed->scancode).toWideString() << "\n";
-
-            // if (keyPressed->code == sf::Keyboard::Key::Space)
-            // {
-            //     _isPause = !_isPause;
-            // }
+            
+            _systems.NotifyKeyboardEvent(keyPressed->code);
         }
     }
 }
 
-void Window::UpdateLogic()
-{
+void Window::UpdateLogic() {
+
 }
 
 void Window::UpdateGui()
 {
-   // _imGui->UpdateGui(_logo, _text);
+
 }
 
 void Window::Render()
 {
     _window.clear();
 
-    if (!_isPause) {
-        UpdateLogic();
-    }
+    _systems.Update(_window);
 
-    for (std::shared_ptr<DrawableEntity> drawableEntity : _drawableEntities) {
-        if (drawableEntity->GetShouldDraw()) {
-            _window.draw(*drawableEntity);
-        }
-    }
-
-    _imGui->Render(_window);
     _window.display();
 }

@@ -46,6 +46,12 @@ public:
             _systems[i]->OnUpdate(window);
         }
     };
+
+    void NotifyKeyboardEvent(sf::Keyboard::Key buttonCode) {
+        for (int i = 0; i < _systems.size(); i++) {
+            _systems[i]->NotifyKeyboardEvent(buttonCode);
+        }
+    }
 };
 
 #endif //SYSTEMS_MANAGER_H

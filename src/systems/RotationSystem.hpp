@@ -16,6 +16,7 @@ class RotationSystem final : public ISystem {
 public:
     ComponentStorage<TransformComponent>& _transformComponents;
     Filter _transforming;
+    sf::Keyboard::Key _buttonCode = sf::Keyboard::Key::Unknown;
 
 // public:
     RotationSystem(World &world)
@@ -27,32 +28,28 @@ public:
 
     void OnInit() override { }
 
+    void NotifyKeyboardEvent(sf::Keyboard::Key buttonCode) override {
+        _buttonCode = buttonCode;
+    }
+
     void OnUpdate(sf::RenderWindow& window) override {
         for (const auto ent : _transforming) {
             auto& transform = _transformComponents.Get(ent);
             if (transform.canManuallyRotate) 
             {
-                transform.rotationSpeed = sf::degrees(1);
-                return;
                 transform.rotationSpeed = sf::degrees(0);
-                while (const std::optional event = world.window.pollEvent())
-                {
-                    if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>())
-                    {
-                        std::wcout << L"Key pressed with code = " << sf::Keyboard::getDescription(keyPressed->scancode).toWideString() << "\n";
 
-                        if (keyPressed->code == sf::Keyboard::Key::Left)
-                        {
-                            transform.rotationSpeed = sf::degrees(-5);
-                        }
-                        if (keyPressed->code == sf::Keyboard::Key::Right)
-                        {
-                            transform.rotationSpeed = sf::degrees(5);
-                        }
-                    }
+                if (_buttonCode == sf::Keyboard::Key::Left)
+                {
+                    transform.rotationSpeed = sf::degrees(-7);
+                }
+                if (_buttonCode == sf::Keyboard::Key::Right)
+                {
+                    transform.rotationSpeed = sf::degrees(7);
                 }
             }
         }
+        _buttonCode = sf::Keyboard::Key::Unknown;
     }
 };
 

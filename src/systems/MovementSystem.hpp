@@ -29,6 +29,8 @@ public:
 
     void OnInit() override { }
 
+    void NotifyKeyboardEvent(sf::Keyboard::Key buttonCode) override { }
+
     void OnUpdate(sf::RenderWindow& window) override {
         for (const auto ent : _transforming) {
             auto& transform = _transformComponents.Get(ent);

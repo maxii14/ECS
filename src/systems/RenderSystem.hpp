@@ -38,6 +38,8 @@ public:
 
     void OnInit() override { }
 
+    void NotifyKeyboardEvent(sf::Keyboard::Key buttonCode) override { }
+
     void OnUpdate(sf::RenderWindow& window) override {
         window.clear();
         // для метеоритов
