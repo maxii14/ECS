@@ -15,7 +15,8 @@ set(SOURCES main.cpp
     systems/MovementSystem.hpp
     systems/RenderSystem.hpp
     systems/RotationSystem.hpp
-    systems/ShootingSystem.hpp)
+    systems/ShootingSystem.hpp
+    systems/CollisionSystem.hpp)
 #set(SOURCES old_main.cpp)
 
 add_executable(${TARGET_NAME}

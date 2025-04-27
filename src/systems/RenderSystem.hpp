@@ -46,7 +46,10 @@ public:
         for (const auto ent : _playerFilter) {
             auto& transform = _transformComponents.Get(ent);
             auto& circle = _circleShapeComponents.Get(ent);
-            circle._polygon.setPosition({transform.position.x, transform.position.y});
+            circle._polygon.setPosition({
+                transform.position.x,
+                transform.position.y
+            });
             circle._polygon.rotate(transform.rotationSpeed);
             window.draw(circle._polygon);
             // std::cout << ent << " Pos triangle: " << transform.position.x << " " << transform.position.y << std::endl;
@@ -55,7 +58,10 @@ public:
         for (const auto ent : _meteorFilter) {
             auto& transform = _transformComponents.Get(ent);
             auto& polygon = _circleShapeComponents.Get(ent);
-            polygon._polygon.setPosition({transform.position.x, transform.position.y});
+            polygon._polygon.setPosition({
+                transform.position.x,
+                transform.position.y
+            });
             polygon._polygon.rotate(transform.rotationSpeed);
             window.draw(polygon._polygon);
             // std::cout << ent << " Pos rect: " << transform.position.x << " " << transform.position.y << std::endl;
@@ -64,7 +70,10 @@ public:
         for (const auto ent : _bulletFilter) {
             auto& transform = _transformComponents.Get(ent);
             auto& rectangle = _rectangleShapeComponents.Get(ent);
-            rectangle._rectangle.setPosition({transform.position.x, transform.position.y});
+            rectangle._rectangle.setPosition({
+                transform.position.x,
+                transform.position.y
+            });
             rectangle._rectangle.setRotation(transform.rotationSpeed);
             window.draw(rectangle._rectangle);
             // std::cout << ent << " Pos triangle: " << transform.position.x << " " << transform.position.y << std::endl;

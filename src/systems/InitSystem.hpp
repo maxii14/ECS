@@ -15,15 +15,9 @@
 #include "../components/CircleShapeComponent.h"
 #include "../components/PlayerComponent.h"
 #include "../components/MeteorComponent.h"
+#include "../components/BoxColliderComponent.h"
+#include "../components/CircleColliderComponent.h"
 
-// class InitSystem {
-//     ConfigReader& _configReader;
-//     std::shared_ptr<Sprite> _sprite;
-
-// public:
-//     InitSystem() = default;
-//     InitSystem(ConfigReader configReader);
-// };
 
 class InitSystem final : public IInitializer {
 public:
@@ -35,14 +29,17 @@ public:
         auto& polygonStorage = world.GetStorage<CircleShapeComponent>();
         auto& playerStorage = world.GetStorage<PlayerComponent>();
         auto& meteorStorage = world.GetStorage<MeteorComponent>();
+        auto& circleColliderStorage = world.GetStorage<CircleColliderComponent>();
+        auto& boxColliderStorage = world.GetStorage<BoxColliderComponent>();
 
-        // Инициализиуем Главную Единицу Игрока (ГЕИ)
+        // Инициализиуем Главную Единицу-Игрок (ГЕИ)
         const int player = world.CreateEntity();
-        float playerPosX = 640.0f, playerPosY = 360.0f;
+        float playerPosX = 640.0f, playerPosY = 360.0f, playerRadius = 50.0f;
         transformsStorage.Add(player, TransformComponent({playerPosX, playerPosY}, {0.0f, 0.0f}, sf::degrees(0), true));
         float playerColor[3] = {1.0f, 1.0f, 1.0f};
-        polygonStorage.Add(player, CircleShapeComponent(50.0f, 3, playerColor));
+        polygonStorage.Add(player, CircleShapeComponent(playerRadius, 3, playerColor));
         playerStorage.Add(player, PlayerComponent());
+        boxColliderStorage.Add(player, BoxColliderComponent(playerRadius*2.0f, playerRadius*2.0f, {playerPosX - playerRadius, playerPosY - playerRadius}));
 
         // Инициализируем метеориты
         for (int i = 0; i < 40; i++) {
@@ -83,8 +80,9 @@ public:
             float speedY = (playerPosY - posY) / 1600.0f * (2 + rand() % 7);
             float rotationSpeed = rand() % 6;
             transformsStorage.Add(meteor, TransformComponent({posX, posY}, {speedX, speedY}, sf::degrees(rotationSpeed), false));
+            circleColliderStorage.Add(meteor, CircleColliderComponent(size_rand, {posX, posY}));
         }
-        
+
         // transformsStorage.Add(player, TransformComponent({0.0f, 0.0f}, {1.0f, 1.0f}, sf::degrees(0), false));
         // rectangleStorage.Add(player, RectangleShapeComponent(100.0f, 100.0f));
     }

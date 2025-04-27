@@ -7,6 +7,7 @@
 #include <memory>
 #include "../ComponentStorage.hpp"
 #include "../components/Position.h"
+#include "../components/PlayerComponent.h"
 #include "../components/TransformComponent.h"
 #include "../IInitializer.hpp"
 #include "../Filter.hpp"
@@ -15,14 +16,19 @@
 class RotationSystem final : public ISystem {
 public:
     ComponentStorage<TransformComponent>& _transformComponents;
-    Filter _transforming;
+    Filter _playerFilter;
     sf::Keyboard::Key _buttonCode = sf::Keyboard::Key::Unknown;
 
 // public:
     RotationSystem(World &world)
     : ISystem(world),
     _transformComponents(world.GetStorage<TransformComponent>()),
-    _transforming(FilterBuilder(world).With<TransformComponent>().Build()) {
+    _playerFilter(
+        FilterBuilder(world)\
+            .With<TransformComponent>()\
+            .With<PlayerComponent>()\
+            .Build()\
+    ) {
         std::cout << "RotationSystem";
     }
 
@@ -33,20 +39,17 @@ public:
     }
 
     void OnUpdate(sf::RenderWindow& window) override {
-        for (const auto ent : _transforming) {
+        for (const auto ent : _playerFilter) {
             auto& transform = _transformComponents.Get(ent);
-            if (transform.canManuallyRotate) 
-            {
-                transform.rotationSpeed = sf::degrees(0);
+            transform.rotationSpeed = sf::degrees(0);
 
-                if (_buttonCode == sf::Keyboard::Key::Left)
-                {
-                    transform.rotationSpeed = sf::degrees(-7);
-                }
-                if (_buttonCode == sf::Keyboard::Key::Right)
-                {
-                    transform.rotationSpeed = sf::degrees(7);
-                }
+            if (_buttonCode == sf::Keyboard::Key::Left)
+            {
+                transform.rotationSpeed = sf::degrees(-7);
+            }
+            if (_buttonCode == sf::Keyboard::Key::Right)
+            {
+                transform.rotationSpeed = sf::degrees(7);
             }
         }
         _buttonCode = sf::Keyboard::Key::Unknown;

@@ -24,21 +24,5 @@ int main()
     Window window(wWidth, wHeight, configReader);
     window.Run();
 
-    // sf::RenderWindow window(sf::VideoMode({wWidth, wHeight}), "LR2");
-    // window.setFramerateLimit(60);
-    
-    // World world(window);
-
-    // SystemsManager systems(world);
-    // systems.AddInitializer(std::make_shared<InitSystem>(world));
-    // systems.AddSystem(std::make_shared<MovementSystem>(world));
-    // systems.AddSystem(std::make_shared<RenderSystem>(world));
-    // systems.AddSystem(std::make_shared<RotationSystem>(world));
-    // systems.AddSystem(std::make_shared<ShootingSystem>(world));
-
-    // while (window.isOpen()) {
-    //     systems.Update(window);
-    // }
-
     return 0;
 }
