@@ -12,27 +12,27 @@
 #include "../Filter.hpp"
 #include "../FilterBuilder.hpp"
 #include "../components/RectangleShapeComponent.h"
-#include "../components/TriangleShapeComponent.h"
-#include "../components/PolygonShapeComponent.h"
+#include "../components/CircleShapeComponent.h"
+#include "../components/PlayerComponent.h"
+#include "../components/MeteorComponent.h"
+#include "../components/BulletComponent.h"
 
 class RenderSystem final : public ISystem {
 public:
     ComponentStorage<TransformComponent>& _transformComponents;
-    ComponentStorage<PolygonShapeComponent>& _polygonShapeComponents;
+    ComponentStorage<CircleShapeComponent>& _circleShapeComponents;
     ComponentStorage<RectangleShapeComponent>& _rectangleShapeComponents;
-    ComponentStorage<TriangleShapeComponent>& _triangleShapeComponents;
-    Filter _positioningPolygon, _positioningTriangle, _positioningRectangle;
+    Filter _playerFilter, _meteorFilter, _bulletFilter;
     // Мы хотим изменять position, которое кладем в
 // public:
     RenderSystem(World &world)
     : ISystem(world),
     _transformComponents(world.GetStorage<TransformComponent>()),
-    _polygonShapeComponents(world.GetStorage<PolygonShapeComponent>()),
-    _triangleShapeComponents(world.GetStorage<TriangleShapeComponent>()),
+    _circleShapeComponents(world.GetStorage<CircleShapeComponent>()),
     _rectangleShapeComponents(world.GetStorage<RectangleShapeComponent>()),
-    _positioningPolygon(FilterBuilder(world).With<TransformComponent>().With<PolygonShapeComponent>().Build()),
-    _positioningTriangle(FilterBuilder(world).With<TransformComponent>().With<TriangleShapeComponent>().Build()),
-    _positioningRectangle(FilterBuilder(world).With<TransformComponent>().With<RectangleShapeComponent>().Build()) {
+    _playerFilter(FilterBuilder(world).With<TransformComponent>().With<PlayerComponent>().Build()),
+    _meteorFilter(FilterBuilder(world).With<TransformComponent>().With<MeteorComponent>().Build()),
+    _bulletFilter(FilterBuilder(world).With<TransformComponent>().With<BulletComponent>().Build()) {
         std::cout << "RenderSystem";
     }
 
@@ -42,26 +42,26 @@ public:
 
     void OnUpdate(sf::RenderWindow& window) override {
         window.clear();
-        // для метеоритов
-        for (const auto ent : _positioningPolygon) {
+        // для главной единицы игрока (ГЕИ)
+        for (const auto ent : _playerFilter) {
             auto& transform = _transformComponents.Get(ent);
-            auto& polygon = _polygonShapeComponents.Get(ent);
+            auto& circle = _circleShapeComponents.Get(ent);
+            circle._polygon.setPosition({transform.position.x, transform.position.y});
+            circle._polygon.rotate(transform.rotationSpeed);
+            window.draw(circle._polygon);
+            // std::cout << ent << " Pos triangle: " << transform.position.x << " " << transform.position.y << std::endl;
+        }
+        // для метеоритов
+        for (const auto ent : _meteorFilter) {
+            auto& transform = _transformComponents.Get(ent);
+            auto& polygon = _circleShapeComponents.Get(ent);
             polygon._polygon.setPosition({transform.position.x, transform.position.y});
             polygon._polygon.rotate(transform.rotationSpeed);
             window.draw(polygon._polygon);
             // std::cout << ent << " Pos rect: " << transform.position.x << " " << transform.position.y << std::endl;
         }
-        // для главной единицы игрока (ГЕИ)
-        for (const auto ent : _positioningTriangle) {
-            auto& transform = _transformComponents.Get(ent);
-            auto& triangle = _triangleShapeComponents.Get(ent);
-            triangle._triangle.setPosition({transform.position.x, transform.position.y});
-            triangle._triangle.rotate(transform.rotationSpeed);
-            window.draw(triangle._triangle);
-            // std::cout << ent << " Pos triangle: " << transform.position.x << " " << transform.position.y << std::endl;
-        }
         // для пуль
-        for (const auto ent : _positioningRectangle) {
+        for (const auto ent : _bulletFilter) {
             auto& transform = _transformComponents.Get(ent);
             auto& rectangle = _rectangleShapeComponents.Get(ent);
             rectangle._rectangle.setPosition({transform.position.x, transform.position.y});

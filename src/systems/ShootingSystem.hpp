@@ -9,7 +9,8 @@
 #include "../components/Position.h"
 #include "../components/TransformComponent.h"
 #include "../components/RectangleShapeComponent.h"
-#include "../components/TriangleShapeComponent.h"
+#include "../components/CircleShapeComponent.h"
+#include "../components/PlayerComponent.h"
 #include "../IInitializer.hpp"
 #include "../Filter.hpp"
 #include "../FilterBuilder.hpp"
@@ -25,7 +26,7 @@ public:
     ShootingSystem(World &world)
     : ISystem(world),
     _transformComponents(world.GetStorage<TransformComponent>()),
-    _transforming(FilterBuilder(world).With<TransformComponent>().Build()) {
+    _transforming(FilterBuilder(world).With<TransformComponent>().With<PlayerComponent>().Build()) {
         std::cout << "ShootingSystem";
     }
 
@@ -45,23 +46,24 @@ public:
                     _buttonCode = sf::Keyboard::Key::Unknown;
 
                     auto& rectangleStorage = world.GetStorage<RectangleShapeComponent>();
-                    auto& transformsStorage = world.GetStorage<TransformComponent>();
-                    auto& triangleStorage = world.GetStorage<TriangleShapeComponent>();
+                    auto& transformStorage = world.GetStorage<TransformComponent>();
+                    auto& playerStorage = world.GetStorage<PlayerComponent>();
+                    auto& circleStorage = world.GetStorage<CircleShapeComponent>();
 
                     // Получаем трансформ ГЕИ
-                    int playerId = triangleStorage.Entities()[0];
+                    int playerId = playerStorage.Entities()[0];
                     auto& playerTransform = _transformComponents.Get(playerId);
-                    auto& playerTriangle = triangleStorage.Get(playerId);
+                    auto& playerCircle = circleStorage.Get(playerId);
                     
                     // Создаём пулю
                     int bullet = world.CreateEntity();
                     // получаем вершину игрока, задаём позицию и скорость
-                    sf::Transform transform = playerTriangle._triangle.getTransform();
-                    sf::Vector2f playerGunPos = transform.transformPoint(playerTriangle._triangle.getPoint(0));
+                    sf::Transform transform = playerCircle._polygon.getTransform();
+                    sf::Vector2f playerGunPos = transform.transformPoint(playerCircle._polygon.getPoint(0));
                     float bulletSpeedX = (playerGunPos.x - playerTransform.position.x) / 2.0f;
                     float bulletSpeedY = (playerGunPos.y - playerTransform.position.y) / 2.0f;
 
-                    transformsStorage.Add(bullet, TransformComponent(playerGunPos, {bulletSpeedX, bulletSpeedY}, playerTriangle._triangle.getRotation(), false));
+                    transformStorage.Add(bullet, TransformComponent(playerGunPos, {bulletSpeedX, bulletSpeedY}, playerCircle._polygon.getRotation(), false));
                     rectangleStorage.Add(bullet, RectangleShapeComponent(3.0f, 10.0f));
                 }
             }

@@ -12,8 +12,9 @@
 #include "../components/TransformComponent.h"
 #include "../IInitializer.hpp"
 #include "../components/RectangleShapeComponent.h"
-#include "../components/TriangleShapeComponent.h"
-#include "../components/PolygonShapeComponent.h"
+#include "../components/CircleShapeComponent.h"
+#include "../components/PlayerComponent.h"
+#include "../components/MeteorComponent.h"
 
 // class InitSystem {
 //     ConfigReader& _configReader;
@@ -31,15 +32,17 @@ public:
         // Инициализируем сторэджи
         auto& positionsStorage = world.GetStorage<Position>();
         auto& transformsStorage = world.GetStorage<TransformComponent>();
-        // auto& rectangleStorage = world.GetStorage<RectangleShapeComponent>();
-        auto& polygonStorage = world.GetStorage<PolygonShapeComponent>();
-        auto& triangleStorage = world.GetStorage<TriangleShapeComponent>();
+        auto& polygonStorage = world.GetStorage<CircleShapeComponent>();
+        auto& playerStorage = world.GetStorage<PlayerComponent>();
+        auto& meteorStorage = world.GetStorage<MeteorComponent>();
 
         // Инициализиуем Главную Единицу Игрока (ГЕИ)
         const int player = world.CreateEntity();
         float playerPosX = 640.0f, playerPosY = 360.0f;
         transformsStorage.Add(player, TransformComponent({playerPosX, playerPosY}, {0.0f, 0.0f}, sf::degrees(0), true));
-        triangleStorage.Add(player, TriangleShapeComponent(50.0f, 3));
+        float playerColor[3] = {1.0f, 1.0f, 1.0f};
+        polygonStorage.Add(player, CircleShapeComponent(50.0f, 3, playerColor));
+        playerStorage.Add(player, PlayerComponent());
 
         // Инициализируем метеориты
         for (int i = 0; i < 40; i++) {
@@ -48,8 +51,9 @@ public:
             float size_rand = 10 + rand() % 51;
             int angles_number_rand = 4 + rand() % 5;
             float grayScaleColor = (30 + rand() % 150) / 255.0f;
-            float color[3] = {grayScaleColor, grayScaleColor, grayScaleColor};
-            polygonStorage.Add(meteor, PolygonShapeComponent(size_rand, angles_number_rand, color));
+            float meteorColor[3] = {grayScaleColor, grayScaleColor, grayScaleColor};
+            polygonStorage.Add(meteor, CircleShapeComponent(size_rand, angles_number_rand, meteorColor));
+            meteorStorage.Add(meteor, MeteorComponent());
 
             // Позиция
             int sideX = rand() % 2, sideY = rand() % 2, side = rand() % 3;

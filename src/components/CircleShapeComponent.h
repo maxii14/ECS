@@ -1,19 +1,19 @@
-#ifndef POLYGON_SHAPE_COMPONENT_H
-#define POLYGON_SHAPE_COMPONENT_H
+#ifndef CIRCLE_SHAPE_COMPONENT_H
+#define CIRCLE_SHAPE_COMPONENT_H
 
 #include <iostream>
 #include <memory>
 #include <SFML/Graphics.hpp>
 
 
-struct PolygonShapeComponent
+struct CircleShapeComponent
 {
     float _radius;
     int _angles;
     float _color[3] = { 1.0f, 1.0f, 1.0f };
     sf::CircleShape _polygon;
 
-    PolygonShapeComponent(float radius, size_t angles, float* color): _radius(radius), _angles(angles)
+    CircleShapeComponent(float radius, size_t angles, float* color): _radius(radius), _angles(angles)
     {
         _polygon = sf::CircleShape(radius, angles);
         _color[0] = color[0];
@@ -26,7 +26,7 @@ struct PolygonShapeComponent
         ));
         _polygon.setOrigin({radius, radius});
     }
-    PolygonShapeComponent(): _radius(100.0f), _angles(4)
+    CircleShapeComponent(): _radius(100.0f), _angles(4)
     {
         _polygon = sf::CircleShape(_radius, _angles);
         _polygon.setFillColor(sf::Color(
@@ -37,4 +37,4 @@ struct PolygonShapeComponent
     }
 };
 
-#endif //POLYGON_SHAPE_COMPONENT_H
+#endif //CIRCLE_SHAPE_COMPONENT_H
