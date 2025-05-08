@@ -44,15 +44,15 @@ public:
         if (entity.IsRemoved())
             return;
 
-        // const auto& components = entity.Components();
-        // if (!components.empty()) {
-        //     for (int i = components.size() - 1; i >= 0; i--)
-        //         _componentStorages[components[i]]->Remove(ent);
-        // }
-        // else {
-        //     entity.Remove();
-        //     _freeEntities.push_back(entity.Id);
-        // }
+        const auto& components = entity.Components();
+        if (!components.empty()) {
+            for (int i = components.size() - 1; i >= 0; i--)
+                _componentStorages[components[i]]->Remove(ent);
+        }
+        else {
+            entity.Remove();
+            _freeEntities.push_back(entity.Id);
+        }
         entity.Remove();
         _freeEntities.push_back(entity.Id);
     };

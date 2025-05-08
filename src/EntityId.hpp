@@ -43,7 +43,7 @@ public:
 
     void Remove() {
         _gen = -(_gen+1);
-        // _components.clear();
+        _components.clear();
     };
 
     void Recycle() {
