@@ -26,6 +26,7 @@
 #include "systems/ProcessCollisionSystem.hpp"
 #include "systems/PoopCollectorSystem.hpp"
 #include "systems/MeteorSpawnSystem.hpp"
+#include "systems/ScoreSystem.hpp"
 
 class Window {
     sf::RenderWindow _window;

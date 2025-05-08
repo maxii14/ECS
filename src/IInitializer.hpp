@@ -6,7 +6,7 @@
 #include <iostream>
 #include <memory>
 #include "World.hpp"
-
+#include "Text.h"
 #include <SFML/Graphics.hpp>
 
 class IInitializer {
@@ -29,7 +29,7 @@ public:
 class ISystem : public IInitializer {
 public:
     ISystem(World &world) : IInitializer(world) { } ~ISystem() override = default;
-    virtual void OnUpdate(sf::RenderWindow& window) = 0;
+    virtual void OnUpdate(sf::RenderWindow& window, std::shared_ptr<Text> text) = 0;
     virtual void NotifyKeyboardEvent(sf::Keyboard::Key buttonCode) = 0;
 };
 

@@ -12,6 +12,7 @@
 #include "../ComponentStorage.hpp"
 
 #include "../components/CollisionComponent.h"
+#include "../Text.h"
 
 
 class ProcessCollisionSystem final : public ISystem {
@@ -31,7 +32,7 @@ public:
 
     void NotifyKeyboardEvent(sf::Keyboard::Key buttonCode) override { }
 
-    void OnUpdate(sf::RenderWindow& window) override {
+    void OnUpdate(sf::RenderWindow& window, std::shared_ptr<Text> text) override {
         for (const auto ent : _collisioningFilter) {
             auto& collision = _collisionComponents.Get(ent);
             for (auto entId : collision.collisionWithComponents) {

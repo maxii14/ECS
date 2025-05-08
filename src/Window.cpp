@@ -5,7 +5,7 @@ Window::Window(const unsigned int wWidth, const unsigned int wHeight, ConfigRead
     _configReader(configReader), _window(sf::VideoMode({wWidth, wHeight}), "LR2_Liubushkin-Borovik"),
     _world(_window), _systems(_world)
 {
-    scoreText = "Score: ";
+    scoreText = "Score: 0";
     bool _ = font.openFromFile(_configReader.GetFontPath());
     // text = sf::Text(font, scoreText, _configReader.GetFontSize());
     text = std::make_shared<Text>(_configReader.GetFontPath(), scoreText, _configReader.GetFontSize());
@@ -26,6 +26,7 @@ void Window::Initialize()
     _systems.AddSystem(std::make_shared<ShootingSystem>(_world));
     _systems.AddSystem(std::make_shared<MeteorSpawnSystem>(_world));
     _systems.AddSystem(std::make_shared<DetectCollisionSystem>(_world));
+    _systems.AddSystem(std::make_shared<ScoreSystem>(_world));
     _systems.AddSystem(std::make_shared<ProcessCollisionSystem>(_world));
     _systems.AddSystem(std::make_shared<PoopCollectorSystem>(_world));
 }
@@ -75,7 +76,7 @@ void Window::Render()
 {
     _window.clear();
     UpdateGui();
-    _systems.Update(_window);
+    _systems.Update(_window, text);
 
     _window.display();
 }

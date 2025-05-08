@@ -39,7 +39,7 @@ public:
         _buttonCode = buttonCode;
     }
 
-    void OnUpdate(sf::RenderWindow& window) override {
+    void OnUpdate(sf::RenderWindow& window, std::shared_ptr<Text> text) override {
         auto& playerStorage = world.GetStorage<PlayerComponent>();
         auto& bulletStorage = world.GetStorage<BulletComponent>();
 

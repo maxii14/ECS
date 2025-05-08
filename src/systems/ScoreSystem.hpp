@@ -11,6 +11,7 @@
 #include "../Filter.hpp"
 #include "../FilterBuilder.hpp"
 #include "../components/BulletComponent.h"
+#include "../Text.h"
 
 class ScoreSystem final : public ISystem {
 public:
@@ -28,13 +29,14 @@ public:
 
     void NotifyKeyboardEvent(sf::Keyboard::Key buttonCode) override { }
 
-    void OnUpdate(sf::RenderWindow& window) override {
+    void OnUpdate(sf::RenderWindow& window, std::shared_ptr<Text> text) override {
+        int score = text->GetScore();
         for (int bulletId : _bullet) {
             auto& collision = _collisionComponents.Get(bulletId);
             auto& collisionList = collision.collisionWithComponents;
-            int score = collisionList.size()*100;
-            // window.
+            score += collisionList.size()*100;
         }
+        text->SetText("Score: " + std::to_string(score));
     }
 };
 

@@ -15,6 +15,7 @@
 #include "../components/BoxColliderComponent.h"
 #include "../components/CircleColliderComponent.h"
 #include "../components/TransformComponent.h"
+#include "../Text.h"
 
 
 class MovementSystem final : public ISystem {
@@ -42,7 +43,7 @@ public:
 
     void NotifyKeyboardEvent(sf::Keyboard::Key buttonCode) override { }
 
-    void OnUpdate(sf::RenderWindow& window) override {
+    void OnUpdate(sf::RenderWindow& window, std::shared_ptr<Text> text) override {
         UpdatePosition(_transformingBox, _boxColliderComponents);
         UpdatePosition(_transformingCircle, _circleColliderComponents);
     }

@@ -13,6 +13,7 @@
 #include "../IInitializer.hpp"
 #include "../Filter.hpp"
 #include "../FilterBuilder.hpp"
+#include "../Text.h"
 
 class DetectCollisionSystem final : public ISystem {
 public:
@@ -37,7 +38,7 @@ public:
 
     void NotifyKeyboardEvent(sf::Keyboard::Key buttonCode) override { }
 
-    void OnUpdate(sf::RenderWindow& window) override {
+    void OnUpdate(sf::RenderWindow& window, std::shared_ptr<Text> text) override {
         for (const auto pObject : _playerAndBullets) {
             if (!world.IsEntityAlive(pObject)) continue; // считаем коллизии только с "живыми" объектами
 

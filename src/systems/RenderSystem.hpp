@@ -16,6 +16,7 @@
 #include "../components/PlayerComponent.h"
 #include "../components/MeteorComponent.h"
 #include "../components/BulletComponent.h"
+#include "../Text.h"
 
 class RenderSystem final : public ISystem {
 public:
@@ -40,7 +41,7 @@ public:
 
     void NotifyKeyboardEvent(sf::Keyboard::Key buttonCode) override { }
 
-    void OnUpdate(sf::RenderWindow& window) override {
+    void OnUpdate(sf::RenderWindow& window, std::shared_ptr<Text> text) override {
         // для главной единицы игрока (ГЕИ)
         for (const auto ent : _playerFilter) {
             if (!world.IsEntityAlive(ent)) continue;

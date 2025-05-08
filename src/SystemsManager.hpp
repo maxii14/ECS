@@ -7,6 +7,7 @@
 #include <memory>
 #include "World.hpp"
 #include "IInitializer.hpp"
+#include "Text.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -46,11 +47,11 @@ public:
 
     };
 
-    void Update(sf::RenderWindow& window) {
+    void Update(sf::RenderWindow& window, std::shared_ptr<Text> text) {
         Initialize();
 
         for (int i = 0; i < _systems.size(); i++) {
-            _systems[i]->OnUpdate(window);
+            _systems[i]->OnUpdate(window, text);
         }
     };
 

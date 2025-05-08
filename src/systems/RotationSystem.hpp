@@ -38,7 +38,7 @@ public:
         _buttonCode = buttonCode;
     }
 
-    void OnUpdate(sf::RenderWindow& window) override {
+    void OnUpdate(sf::RenderWindow& window, std::shared_ptr<Text> text) override {
         for (const auto ent : _playerFilter) {
             auto& transform = _transformComponents.Get(ent);
             transform.rotationSpeed = sf::degrees(0);

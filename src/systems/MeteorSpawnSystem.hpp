@@ -19,6 +19,7 @@
 #include "../ComponentStorage.hpp"
 #include "../Filter.hpp"
 #include "../FilterBuilder.hpp"
+#include "../Text.h"
 
 
 class MeteorSpawnSystem final : public ISystem {
@@ -41,7 +42,7 @@ public:
 
     void NotifyKeyboardEvent(sf::Keyboard::Key buttonCode) override { }
 
-    void OnUpdate(sf::RenderWindow& window) override {
+    void OnUpdate(sf::RenderWindow& window, std::shared_ptr<Text> text) override {
         int mCount = 0;
         for (const auto ent : _meteorFilter) {
             if (world.IsEntityAlive(ent)) mCount++;
@@ -101,8 +102,8 @@ public:
             }
 
             // Скорость
-            float speedX = (playerTransform.position.x - posX) / 1600.0f * (2 + rand() % 5);
-            float speedY = (playerTransform.position.y - posY) / 1600.0f * (2 + rand() % 7);
+            float speedX = (playerTransform.position.x - posX) / 2000.0f * (2 + rand() % 5);
+            float speedY = (playerTransform.position.y - posY) / 2000.0f * (2 + rand() % 7);
             float rotationSpeed = rand() % 6;
             transformsStorage.Add(meteor, TransformComponent({posX, posY}, {speedX, speedY}, sf::degrees(rotationSpeed), false));
             circleColliderStorage.Add(meteor, CircleColliderComponent(size_rand, {posX, posY}));
@@ -151,8 +152,8 @@ public:
             meteorTransform.position.y = posY;
 
             // Скорость
-            float speedX = (playerTransform.position.x - posX) / 1600.0f * (2 + rand() % 5);
-            float speedY = (playerTransform.position.y - posY) / 1600.0f * (2 + rand() % 7);
+            float speedX = (playerTransform.position.x - posX) / 2000.0f * (2 + rand() % 5);
+            float speedY = (playerTransform.position.y - posY) / 2000.0f * (2 + rand() % 7);
 
             meteorTransform.speed.x = speedX;
             meteorTransform.speed.y = speedY;

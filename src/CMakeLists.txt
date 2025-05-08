@@ -20,7 +20,8 @@ set(SOURCES main.cpp
     systems/ProcessCollisionSystem.hpp
     systems/PoopCollectorSystem.hpp
     systems/MeteorSpawnSystem.hpp
-    Text.cpp)
+    Text.cpp
+    systems/ScoreSystem.hpp)
 #set(SOURCES old_main.cpp)
 
 add_executable(${TARGET_NAME}

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <filesystem>
 #include <SFML/Graphics.hpp>
+#include <string>
 
 
 class Text {
@@ -25,6 +26,7 @@ public:
     void SetShouldDraw(bool shouldDraw);
     void SetText(std::string text);
     void Draw(sf::RenderTarget& target);
+    int GetScore();
 };
 
 #endif //TEXT_H

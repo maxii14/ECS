@@ -11,6 +11,7 @@
 #include "../IInitializer.hpp"
 #include "../Filter.hpp"
 #include "../FilterBuilder.hpp"
+#include "../Text.h"
 
 class PoopCollectorSystem final : public ISystem {
 public:
@@ -29,7 +30,7 @@ public:
 
     void NotifyKeyboardEvent(sf::Keyboard::Key buttonCode) override { }
 
-    void OnUpdate(sf::RenderWindow& window) override {
+    void OnUpdate(sf::RenderWindow& window, std::shared_ptr<Text> text) override {
         for (const auto ent : _transformFilter) {
             auto& transform = _transformComponents.Get(ent);
 
