@@ -33,7 +33,7 @@ public:
     _playerFilter(FilterBuilder(world).With<TransformComponent>().With<PlayerComponent>().Build()),
     _meteorFilter(FilterBuilder(world).With<TransformComponent>().With<MeteorComponent>().Build()),
     _bulletFilter(FilterBuilder(world).With<TransformComponent>().With<BulletComponent>().Build()) {
-        std::cout << "RenderSystem";
+        std::cout << "RenderSystem\n";
     }
 
     void OnInit() override { }
@@ -44,6 +44,8 @@ public:
         window.clear();
         // для главной единицы игрока (ГЕИ)
         for (const auto ent : _playerFilter) {
+            if (!world.IsEntityAlive(ent)) continue;
+
             auto& transform = _transformComponents.Get(ent);
             auto& circle = _circleShapeComponents.Get(ent);
             circle._polygon.setPosition({
@@ -56,6 +58,8 @@ public:
         }
         // для метеоритов
         for (const auto ent : _meteorFilter) {
+            if (!world.IsEntityAlive(ent)) continue;
+
             auto& transform = _transformComponents.Get(ent);
             auto& polygon = _circleShapeComponents.Get(ent);
             polygon._polygon.setPosition({
@@ -68,6 +72,8 @@ public:
         }
         // для пуль
         for (const auto ent : _bulletFilter) {
+            if (!world.IsEntityAlive(ent)) continue;
+
             auto& transform = _transformComponents.Get(ent);
             auto& rectangle = _rectangleShapeComponents.Get(ent);
             rectangle._rectangle.setPosition({

@@ -44,15 +44,17 @@ public:
         if (entity.IsRemoved())
             return;
 
-        const auto& components = entity.Components();
-        if (!components.empty()) {
-            for (int i = components.size() - 1; i >= 0; i--)
-                _componentStorages[components[i]]->Remove(ent);
-        }
-        else {
-            entity.Remove();
-            _freeEntities.push_back(entity.Id);
-        }
+        // const auto& components = entity.Components();
+        // if (!components.empty()) {
+        //     for (int i = components.size() - 1; i >= 0; i--)
+        //         _componentStorages[components[i]]->Remove(ent);
+        // }
+        // else {
+        //     entity.Remove();
+        //     _freeEntities.push_back(entity.Id);
+        // }
+        entity.Remove();
+        _freeEntities.push_back(entity.Id);
     };
 
     EntityId GetPackedEntity(int e) const {
@@ -66,7 +68,7 @@ public:
 
     bool IsEntityAlive(int e) const {
         auto& entity = _entities[e];
-        return !entity.IsRemoved() && entity.Id > 0 && entity.Id < _entities.size() && e == entity.Id;
+        return !entity.IsRemoved() && entity.Id >= 0 && entity.Id < _entities.size() && e == entity.Id;
     }
 
     void EntityComponentsChanged(int e, int storageId, bool added) {

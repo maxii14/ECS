@@ -35,7 +35,7 @@ public:
     _circleColliderComponents(world.GetStorage<CircleColliderComponent>()),
     _transformingBox(FilterBuilder(world).With<TransformComponent>().With<BoxColliderComponent>().Build()),
     _transformingCircle(FilterBuilder(world).With<TransformComponent>().With<CircleColliderComponent>().Build()){
-        std::cout << "MovementSystem";
+        std::cout << "MovementSystem\n";
     }
 
     void OnInit() override { }
@@ -48,7 +48,7 @@ public:
     }
 
     template <typename T>
-    void UpdatePosition(Filter filter, ComponentStorage<T> componentStorage){
+    void UpdatePosition(Filter filter, ComponentStorage<T>& componentStorage){
         for (const auto ent : filter) {
             auto& transform = _transformComponents.Get(ent);
             auto& collider = componentStorage.Get(ent);

@@ -18,6 +18,11 @@ void Window::Initialize()
     _systems.AddSystem(std::make_shared<RenderSystem>(_world));
     _systems.AddSystem(std::make_shared<RotationSystem>(_world));
     _systems.AddSystem(std::make_shared<ShootingSystem>(_world));
+    _systems.AddSystem(std::make_shared<MeteorSpawnSystem>(_world));
+    _systems.AddSystem(std::make_shared<DetectCollisionSystem>(_world));
+    _systems.AddSystem(std::make_shared<ProcessCollisionSystem>(_world));
+    _systems.AddSystem(std::make_shared<PoopCollectorSystem>(_world));
+  
 }
 
 void Window::Run()

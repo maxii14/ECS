@@ -21,6 +21,10 @@
 #include "systems/RenderSystem.hpp"
 #include "systems/RotationSystem.hpp"
 #include "systems/ShootingSystem.hpp"
+#include "systems/DetectCollisionSystem.hpp"
+#include "systems/ProcessCollisionSystem.hpp"
+#include "systems/PoopCollectorSystem.hpp"
+#include "systems/MeteorSpawnSystem.hpp"
 
 class Window {
     sf::RenderWindow _window;

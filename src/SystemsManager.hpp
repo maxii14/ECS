@@ -37,6 +37,13 @@ public:
         }
 
         _newInitializers.clear();
+
+        // KAKASHKA ALERT!!!!!!!!!!!!!!!!!
+        for (int i = 0; i < _systems.size(); i++) {
+            _systems[i]->OnInit();
+        }
+        // KAKASHKA ALERT!!!!!!!!!!!!!!!!!
+
     };
 
     void Update(sf::RenderWindow& window) {

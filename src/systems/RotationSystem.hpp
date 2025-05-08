@@ -29,7 +29,7 @@ public:
             .With<PlayerComponent>()\
             .Build()\
     ) {
-        std::cout << "RotationSystem";
+        std::cout << "RotationSystem\n";
     }
 
     void OnInit() override { }

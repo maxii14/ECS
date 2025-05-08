@@ -13,6 +13,7 @@
 #include "../components/PlayerComponent.h"
 #include "../components/BulletComponent.h"
 #include "../components/BoxColliderComponent.h"
+#include "../components/CollisionComponent.h"
 #include "../IInitializer.hpp"
 #include "../Filter.hpp"
 #include "../FilterBuilder.hpp"
@@ -29,7 +30,7 @@ public:
     : ISystem(world),
     _transformComponents(world.GetStorage<TransformComponent>()),
     _transforming(FilterBuilder(world).With<TransformComponent>().With<PlayerComponent>().Build()) {
-        std::cout << "ShootingSystem";
+        std::cout << "ShootingSystem\n";
     }
 
     void OnInit() override { }
@@ -39,23 +40,25 @@ public:
     }
 
     void OnUpdate(sf::RenderWindow& window) override {
+        auto& rectangleStorage = world.GetStorage<RectangleShapeComponent>();
+        auto& transformStorage = world.GetStorage<TransformComponent>();
+        auto& playerStorage = world.GetStorage<PlayerComponent>();
+        auto& circleStorage = world.GetStorage<CircleShapeComponent>();
+        auto& bulletStorage = world.GetStorage<BulletComponent>();
+        auto& boxColliderStorage = world.GetStorage<BoxColliderComponent>();
+        auto& collisionStorage = world.GetStorage<CollisionComponent>();
+
+        // Получаем трансформ ГЕИ
+        int playerId = playerStorage.Entities()[0];
+        if (!world.IsEntityAlive(playerId)) return;
+        auto& playerTransform = _transformComponents.Get(playerId);
+        auto& playerCircle = circleStorage.Get(playerId);
+
         for (const auto ent : _transforming) {
             auto& transform = _transformComponents.Get(ent);
             if (_buttonCode == sf::Keyboard::Key::Space)
             {
                 _buttonCode = sf::Keyboard::Key::Unknown;
-
-                auto& rectangleStorage = world.GetStorage<RectangleShapeComponent>();
-                auto& transformStorage = world.GetStorage<TransformComponent>();
-                auto& playerStorage = world.GetStorage<PlayerComponent>();
-                auto& circleStorage = world.GetStorage<CircleShapeComponent>();
-                auto& bulletStorage = world.GetStorage<BulletComponent>();
-                auto& boxColliderStorage = world.GetStorage<BoxColliderComponent>();
-
-                // Получаем трансформ ГЕИ
-                int playerId = playerStorage.Entities()[0];
-                auto& playerTransform = _transformComponents.Get(playerId);
-                auto& playerCircle = circleStorage.Get(playerId);
 
                 // Создаём пулю
                 int bullet = world.CreateEntity();
@@ -71,11 +74,12 @@ public:
                     playerCircle._polygon.getRotation(),
                     false
                 ));
-                float bullet_xSize = 2.0f;
-                float bullet_ySize = 15.0f;
+                float bullet_xSize = 1.5f;
+                float bullet_ySize = 20.0f;
                 rectangleStorage.Add(bullet, RectangleShapeComponent(bullet_xSize, bullet_ySize));
                 bulletStorage.Add(bullet, BulletComponent());
-                boxColliderStorage.Add(bullet, BoxColliderComponent(bullet_xSize, bullet_ySize, playerGunPos));
+                boxColliderStorage.Add(bullet, BoxColliderComponent(bullet_xSize, bullet_ySize, playerGunPos + sf::Vector2f{bullet_xSize / 2.0f, bullet_ySize / 2.0f}));
+                collisionStorage.Add(bullet, CollisionComponent());
             }
         }
     }
