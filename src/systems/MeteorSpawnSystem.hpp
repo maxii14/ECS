@@ -32,7 +32,7 @@ public:
     _transformComponents(world.GetStorage<TransformComponent>()),
     _meteorFilter(FilterBuilder(world).With<TransformComponent>().With<MeteorComponent>().Build()) {
         std::cout << "MeteorSpawnSystem\n";
-        meteorsTotalCount = 1;
+        meteorsTotalCount = 10;
     }
 
     void OnInit() override {
@@ -48,7 +48,7 @@ public:
         }
 
         if (mCount == meteorsTotalCount) return;
-        int missingMeteorsCount = 1 - mCount;
+        int missingMeteorsCount = meteorsTotalCount - mCount;
 
         RespawnMeteors(missingMeteorsCount);
     }
@@ -103,7 +103,6 @@ public:
             // Скорость
             float speedX = (playerTransform.position.x - posX) / 1600.0f * (2 + rand() % 5);
             float speedY = (playerTransform.position.y - posY) / 1600.0f * (2 + rand() % 7);
-
             float rotationSpeed = rand() % 6;
             transformsStorage.Add(meteor, TransformComponent({posX, posY}, {speedX, speedY}, sf::degrees(rotationSpeed), false));
             circleColliderStorage.Add(meteor, CircleColliderComponent(size_rand, {posX, posY}));
@@ -115,11 +114,15 @@ public:
         auto& playerStorage = world.GetStorage<PlayerComponent>();
         int playerId = playerStorage.Entities()[0];
         auto& playerTransform = _transformComponents.Get(playerId);
+        auto& meteorStorage = world.GetStorage<MeteorComponent>();
+        auto& circleColliderStorage = world.GetStorage<CircleColliderComponent>();
 
         // Переспавниваем недостающие метеориты
         for (int i = 0; i < count; i++) {
-            int meteor = world.CreateEntity();
+
+            int meteor = world.CreateEntity(meteorStorage);
             auto& meteorTransform = _transformComponents.Get(meteor);
+            auto& circleCollider = circleColliderStorage.Get(meteor);
 
             // Позиция
             int sideX = rand() % 2, sideY = rand() % 2, side = rand() % 3;
@@ -146,13 +149,14 @@ public:
 
             meteorTransform.position.x = posX;
             meteorTransform.position.y = posY;
-            
+
             // Скорость
             float speedX = (playerTransform.position.x - posX) / 1600.0f * (2 + rand() % 5);
             float speedY = (playerTransform.position.y - posY) / 1600.0f * (2 + rand() % 7);
 
             meteorTransform.speed.x = speedX;
             meteorTransform.speed.y = speedY;
+            circleCollider._refPoint = {posX, posY};
         }
     }
 };

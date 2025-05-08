@@ -38,6 +38,28 @@ public:
         return entityId;
     };
 
+    template <typename T>
+    int CreateEntity(ComponentStorage<T> componentStorage){
+        int entityId;
+        if (!_freeEntities.empty()) {
+            const auto& entities = componentStorage.Entities();
+            for (int id : _freeEntities){
+                if (std::find(entities.begin(), entities.end(), id) != entities.end()){
+                    _freeEntities.erase(std::remove(_freeEntities.begin(), _freeEntities.end(), id), _freeEntities.end());
+                    _entities[id].Recycle();
+                    return id;
+                }
+            }
+            entityId = _entities.size();
+            _entities.emplace_back(entityId, 1); // вставляем
+        }
+        else {
+            entityId = _entities.size();
+            _entities.emplace_back(entityId, 1); // вставляем
+        }
+        return entityId;
+    }
+
     void RemoveEntity(int ent) {
         auto& entity = _entities[ent];
 
@@ -53,8 +75,8 @@ public:
             entity.Remove();
             _freeEntities.push_back(entity.Id);
         }
-        entity.Remove();
-        _freeEntities.push_back(entity.Id);
+        // entity.Remove();
+        // _freeEntities.push_back(entity.Id);
     };
 
     EntityId GetPackedEntity(int e) const {

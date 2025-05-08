@@ -54,6 +54,9 @@ public:
             auto& collider = componentStorage.Get(ent);
             transform.position += transform.speed;
             collider._refPoint += transform.speed;
+            // if (ent == 1 && world.IsEntityAlive(ent)) {
+            //     std::cout << transform.speed.x << ", " << transform.speed.y << "; " << transform.position.x << ", " << transform.position.y << std::endl;
+            // }
         }
     }
 };

@@ -41,7 +41,6 @@ public:
     void NotifyKeyboardEvent(sf::Keyboard::Key buttonCode) override { }
 
     void OnUpdate(sf::RenderWindow& window) override {
-        window.clear();
         // для главной единицы игрока (ГЕИ)
         for (const auto ent : _playerFilter) {
             if (!world.IsEntityAlive(ent)) continue;
@@ -76,6 +75,9 @@ public:
 
             auto& transform = _transformComponents.Get(ent);
             auto& rectangle = _rectangleShapeComponents.Get(ent);
+            if (ent == 1) {
+                std::cout << transform.position.x << ", " << transform.position.y << "; " << transform.speed.x << ", " << transform.speed.y << std::endl;
+            }
             rectangle._rectangle.setPosition({
                 transform.position.x,
                 transform.position.y
@@ -84,7 +86,6 @@ public:
             window.draw(rectangle._rectangle);
             // std::cout << ent << " Pos triangle: " << transform.position.x << " " << transform.position.y << std::endl;
         }
-        window.display();
     }
 };
 

@@ -37,6 +37,7 @@ public:
         // Инициализиуем Главную Единицу-Игрок (ГЕИ)
         const int player = world.CreateEntity();
         float playerPosX = 640.0f, playerPosY = 360.0f, playerRadius = 50.0f;
+        // float playerPosX = 1250.0f, playerPosY = 700.0f, playerRadius = 50.0f;
         transformsStorage.Add(player, TransformComponent({playerPosX, playerPosY}, {0.0f, 0.0f}, sf::degrees(0), true));
         float playerColor[3] = {1.0f, 1.0f, 1.0f};
         polygonStorage.Add(player, CircleShapeComponent(playerRadius, 3, playerColor));

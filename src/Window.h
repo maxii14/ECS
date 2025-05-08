@@ -14,6 +14,7 @@
 #include "ConfigReader.h"
 
 #include "World.hpp"
+#include "Text.h"
 #include "SystemsManager.hpp"
 
 #include "systems/InitSystem.hpp"
@@ -40,6 +41,7 @@ class Window {
     World _world;
     SystemsManager _systems;
 
+
     void Initialize();
 
     void UpdateUserInput();
@@ -49,7 +51,10 @@ class Window {
 
 public:
     Window(const unsigned int wWidth, const unsigned int wHeight, ConfigReader& configReader);
-    
+    std::string scoreText;
+    sf::Font font;
+    std::shared_ptr<Text> text;
+
     void Run();
 };
 

@@ -19,7 +19,8 @@ set(SOURCES main.cpp
     systems/DetectCollisionSystem.hpp
     systems/ProcessCollisionSystem.hpp
     systems/PoopCollectorSystem.hpp
-    systems/MeteorSpawnSystem.hpp)
+    systems/MeteorSpawnSystem.hpp
+    Text.cpp)
 #set(SOURCES old_main.cpp)
 
 add_executable(${TARGET_NAME}
