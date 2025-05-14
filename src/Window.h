@@ -27,6 +27,9 @@
 #include "systems/PoopCollectorSystem.hpp"
 #include "systems/MeteorSpawnSystem.hpp"
 #include "systems/ScoreSystem.hpp"
+#include "systems/ShootingDelaySystem.hpp"
+#include "systems/PotrachenoSystem.hpp"
+#include "systems/RespawnSystem.hpp"
 
 class Window {
     sf::RenderWindow _window;

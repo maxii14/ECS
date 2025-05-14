@@ -47,7 +47,8 @@ void Text::Transfer(const Text& other)
 }
 
 void Text::SetText(std::string text) {
-    _text = sf::Text(_font, text, _fontSize);
+    //_text = sf::Text(_font, text, _fontSize);
+    _text.setString(text);
 }
 
 int Text::GetScore() {

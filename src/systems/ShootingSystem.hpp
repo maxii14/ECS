@@ -22,6 +22,7 @@
 class ShootingSystem final : public ISystem {
 public:
     ComponentStorage<TransformComponent>& _transformComponents;
+    ComponentStorage<PlayerComponent>& _playerComponents;
     Filter _transforming;
     sf::Keyboard::Key _buttonCode = sf::Keyboard::Key::Unknown;
 
@@ -29,6 +30,7 @@ public:
     ShootingSystem(World &world)
     : ISystem(world),
     _transformComponents(world.GetStorage<TransformComponent>()),
+    _playerComponents(world.GetStorage<PlayerComponent>()),
     _transforming(FilterBuilder(world).With<TransformComponent>().With<PlayerComponent>().Build()) {
         std::cout << "ShootingSystem\n";
     }
@@ -51,8 +53,12 @@ public:
 
         for (const auto ent : _transforming) {
             auto& transform = _transformComponents.Get(ent);
+            auto& player = _playerComponents.Get(ent);
             if (_buttonCode == sf::Keyboard::Key::Space)
             {
+                if (player.delay < 30) return; // delay
+                player.delay = 0;
+
                 _buttonCode = sf::Keyboard::Key::Unknown;
 
                 // Создаём пулю

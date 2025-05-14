@@ -1,12 +1,5 @@
 #include "Window.h"
 #include "ConfigReader.cpp"
-// #include "World.hpp"
-// #include "SystemsManager.hpp"
-// #include "systems/InitSystem.hpp"
-// #include "systems/MovementSystem.hpp"
-// #include "systems/RenderSystem.hpp"
-// #include "systems/RotationSystem.hpp"
-// #include "systems/ShootingSystem.hpp"
 #include <fstream>
 #include <string>
 
@@ -15,7 +8,7 @@ using namespace std;
 
 int main()
 {
-    setlocale(LC_ALL, "");
+    setlocale(LC_ALL, "Russian");
 
     ConfigReader configReader("../config.txt");
     const int wWidth = configReader.GetWindowWidth();

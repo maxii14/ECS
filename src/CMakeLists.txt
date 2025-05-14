@@ -20,6 +20,9 @@ set(SOURCES main.cpp
     systems/ProcessCollisionSystem.hpp
     systems/PoopCollectorSystem.hpp
     systems/MeteorSpawnSystem.hpp
+    systems/ShootingDelaySystem.hpp
+    systems/PotrachenoSystem.hpp
+    systems/RespawnSystem.hpp
     Text.cpp
     systems/ScoreSystem.hpp)
 #set(SOURCES old_main.cpp)

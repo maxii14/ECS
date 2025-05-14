@@ -13,6 +13,7 @@ Window::Window(const unsigned int wWidth, const unsigned int wHeight, ConfigRead
     auto desktop = sf::VideoMode::getDesktopMode();
     _window.setPosition({ (int) (desktop.size.x / 2 - wWidth / 2), (int) (desktop.size.y / 2 - wHeight / 2) });
     _window.setFramerateLimit(60);
+    srand(time(NULL));
 
     Initialize();
 }
@@ -29,6 +30,9 @@ void Window::Initialize()
     _systems.AddSystem(std::make_shared<ScoreSystem>(_world));
     _systems.AddSystem(std::make_shared<ProcessCollisionSystem>(_world));
     _systems.AddSystem(std::make_shared<PoopCollectorSystem>(_world));
+    _systems.AddSystem(std::make_shared<ShootingDelaySystem>(_world));
+    _systems.AddSystem(std::make_shared<PotrachenoSystem>(_world));
+    _systems.AddSystem(std::make_shared<RespawnSystem>(_world));
 }
 
 void Window::Run()

@@ -8,7 +8,7 @@
 
 struct PlayerComponent
 {
-    float score;
+    float score, delay;
 };
 
 

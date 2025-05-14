@@ -15,12 +15,16 @@
 
 class ScoreSystem final : public ISystem {
 public:
+    ComponentStorage<PlayerComponent>& _playerComponents;
+    Filter _playerFilter;
     ComponentStorage<CollisionComponent>& _collisionComponents;
     Filter _bullet;
 
     ScoreSystem(World &world)
     : ISystem(world),
     _collisionComponents(world.GetStorage<CollisionComponent>()),
+    _playerComponents(world.GetStorage<PlayerComponent>()),
+    _playerFilter(FilterBuilder(world).With<PlayerComponent>().Build()),
     _bullet(FilterBuilder(world).With<CollisionComponent>().With<BulletComponent>().Build()){
         std::cout << "ScoreSystem\n";
     }
@@ -30,13 +34,14 @@ public:
     void NotifyKeyboardEvent(sf::Keyboard::Key buttonCode) override { }
 
     void OnUpdate(sf::RenderWindow& window, std::shared_ptr<Text> text) override {
-        int score = text->GetScore();
+        auto& player = _playerComponents.Get(0);
+
         for (int bulletId : _bullet) {
             auto& collision = _collisionComponents.Get(bulletId);
             auto& collisionList = collision.collisionWithComponents;
-            score += collisionList.size()*100;
+            player.score += collisionList.size()*100;
         }
-        text->SetText("Score: " + std::to_string(score));
+        text->SetText("Score: " + std::to_string((int)player.score));
     }
 };
 
