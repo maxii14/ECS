@@ -39,7 +39,7 @@ public:
                 for (const auto ent1 : _transformFilter) {
                     world.RemoveEntity(ent1);
                 }
-                text->SetPosition({640.0f - text->GetCharacterSize() * 13 / 3.800555353500040091008880000001f, 360.0f - text->GetCharacterSize()});
+                text->SetPosition({world.configReader.GetWindowWidth() / 2 - text->GetCharacterSize() * 13 / 3.800555353500040091008880000001f, world.configReader.GetWindowHeight() / 2 - text->GetCharacterSize()});
                 text->SetText("POTRACHENO(((\n\tPRESS ENTER");
             }
         }

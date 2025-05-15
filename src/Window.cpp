@@ -3,7 +3,7 @@
 
 Window::Window(const unsigned int wWidth, const unsigned int wHeight, ConfigReader& configReader) :
     _configReader(configReader), _window(sf::VideoMode({wWidth, wHeight}), "LR2_Liubushkin-Borovik"),
-    _world(_window), _systems(_world)
+    _world(_window, configReader), _systems(_world)
 {
     scoreText = "Score: 0";
     bool _ = font.openFromFile(_configReader.GetFontPath());
@@ -12,7 +12,7 @@ Window::Window(const unsigned int wWidth, const unsigned int wHeight, ConfigRead
     text->SetPosition({(float) text->GetCharacterSize(), (float) text->GetCharacterSize()});
     auto desktop = sf::VideoMode::getDesktopMode();
     _window.setPosition({ (int) (desktop.size.x / 2 - wWidth / 2), (int) (desktop.size.y / 2 - wHeight / 2) });
-    _window.setFramerateLimit(60);
+    _window.setFramerateLimit(configReader.GetFrameRate());
     srand(time(NULL));
 
     Initialize();

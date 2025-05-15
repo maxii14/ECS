@@ -45,11 +45,11 @@ public:
 
             if (_buttonCode == sf::Keyboard::Key::Left)
             {
-                transform.rotationSpeed = sf::degrees(-7);
+                transform.rotationSpeed = sf::degrees(-world.configReader.GetRotationSpeed());
             }
             if (_buttonCode == sf::Keyboard::Key::Right)
             {
-                transform.rotationSpeed = sf::degrees(7);
+                transform.rotationSpeed = sf::degrees(world.configReader.GetRotationSpeed());
             }
         }
         _buttonCode = sf::Keyboard::Key::Unknown;

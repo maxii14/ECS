@@ -14,19 +14,19 @@ public:
     std::string GetValue(std::string prefix);
     int GetWindowHeight();
     int GetWindowWidth();
-    float GetXSpeed();
-    float GetYSpeed();
-    float GetLogoXScale();
-    float GetLogoYScale();
-    float GetXPosition();
-    float GetYPosition();
+    float GetRotationSpeed();
+    float GetPlayerSize();
     std::string GetFontPath();
     float GetFontSize();
-    std::string GetTexturePath(std::string tName);
-    std::string GetInitialTextureName();
-    std::vector<std::string> GetAllLogoNames();
-    std::vector<float> GetLogoColors();
-    std::string GetPauseText();
+    std::vector<float> GetPlayerColors();
+    int GetFrameRate();
+    int GetCoolDownCoeff();
+    int GetKillPoints();
+    int GetMeteorsCount();
+    float GetMeteorsSpeedCoeff();
+    float GetBulletXSize();
+    float GetBulletYSize();
+    float GetBulletSpeedCoeff();
 };
 
 #endif //CONFIG_READER_H

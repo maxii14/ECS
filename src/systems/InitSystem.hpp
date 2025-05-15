@@ -36,10 +36,12 @@ public:
 
         // Инициализиуем Главную Единицу-Игрок (ГЕИ)
         const int player = world.CreateEntity();
-        float playerPosX = 640.0f, playerPosY = 360.0f, playerRadius = 50.0f;
-        // float playerPosX = 1250.0f, playerPosY = 700.0f, playerRadius = 50.0f;
+        float playerPosX = world.configReader.GetWindowWidth() / 2;
+        float playerPosY = world.configReader.GetWindowHeight() / 2;
+        float playerRadius = world.configReader.GetPlayerSize();
         transformsStorage.Add(player, TransformComponent({playerPosX, playerPosY}, {0.0f, 0.0f}, sf::degrees(0), true));
-        float playerColor[3] = {1.0f, 1.0f, 1.0f};
+        std::vector<float> playerColors = world.configReader.GetPlayerColors();
+        float playerColor[3] = {playerColors[0], playerColors[1], playerColors[2]};
         polygonStorage.Add(player, CircleShapeComponent(playerRadius, 3, playerColor));
         playerStorage.Add(player, PlayerComponent());
         boxColliderStorage.Add(player, BoxColliderComponent(playerRadius*2.0f, playerRadius*2.0f, {playerPosX, playerPosY}));

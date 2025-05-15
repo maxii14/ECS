@@ -34,7 +34,10 @@ public:
         for (const auto ent : _transformFilter) {
             auto& transform = _transformComponents.Get(ent);
 
-            if (transform.position.x > 2000 || transform.position.y > 1500 || transform.position.x < -500 || transform.position.y < -500) {
+            if (transform.position.x > (world.configReader.GetWindowWidth() + 800.f)
+            || transform.position.y > (world.configReader.GetWindowHeight() + 800.f)
+            || transform.position.x < -500
+            || transform.position.y < -500) {
             // if (transform.position.x > 2000 || transform.position.y > 1200 || transform.position.x < 300 || transform.position.y < 200) {
                 if (world.IsEntityAlive(ent)) std::cout << "Entity dead " << ent << std::endl;
                 world.RemoveEntity(ent);

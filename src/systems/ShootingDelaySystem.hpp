@@ -30,7 +30,9 @@ public:
     void OnUpdate(sf::RenderWindow& window, std::shared_ptr<Text> text) override {
         for (const auto ent : _playerFilter) {
             auto& player = _playerComponents.Get(ent);
-            if (player.delay < 30) player.delay++;
+            if (player.delay < world.configReader.GetFrameRate() / world.configReader.GetCoolDownCoeff()) {
+                player.delay++;
+            }
         }
     }
 };

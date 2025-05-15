@@ -33,7 +33,7 @@ public:
     _transformComponents(world.GetStorage<TransformComponent>()),
     _meteorFilter(FilterBuilder(world).With<TransformComponent>().With<MeteorComponent>().Build()) {
         std::cout << "MeteorSpawnSystem\n";
-        meteorsTotalCount = 10;
+        meteorsTotalCount = world.configReader.GetMeteorsCount();
     }
 
     void OnInit() override {
@@ -85,25 +85,25 @@ public:
             {
             case 0: // слева-справа, sideY ne ebet
                 if (sideX == 0) posX = -200.0f; // метеорит спавнится слева
-                else posX = 1280.0f + 200.0f; // метеорит спавнится cправа
-                posY = rand() % 721;
+                else posX = world.configReader.GetWindowWidth() + 200.0f; // метеорит спавнится cправа
+                posY = rand() % (world.configReader.GetWindowHeight() + 1);
                 break;
             case 1: // снизу-сверху, sideX ne ebet
                 if (sideY == 0) posY = -200.0f; // метеорит спавнится сверху
-                else posY = 720.0f + 200.0f; // метеорит спавнится cнизу
-                posX = rand() % 1281;
+                else posY = world.configReader.GetWindowHeight() + 200.0f; // метеорит спавнится cнизу
+                posX = rand() % (world.configReader.GetWindowWidth() + 1);
                 break;
             default: // по диагонали
                 if (sideX == 0) posX = -200.0f - rand() % 201;
-                else posX = 1280.0f + 200.0f + rand() % 201;
+                else posX = world.configReader.GetWindowWidth() + 200.0f + rand() % 201;
                 if (sideY == 0) posY = -200.0f - rand() % 201;
-                else posY = 720.0f + 200.0f + rand() % 201;
+                else posY = world.configReader.GetWindowHeight() + 200.0f + rand() % 201;
                 break;
             }
 
             // Скорость
-            float speedX = (playerTransform.position.x - posX) / 2000.0f * (2 + rand() % 5);
-            float speedY = (playerTransform.position.y - posY) / 2000.0f * (2 + rand() % 7);
+            float speedX = (playerTransform.position.x - posX) * world.configReader.GetMeteorsSpeedCoeff() / 10000 * (2 + rand() % 5);
+            float speedY = (playerTransform.position.y - posY) * world.configReader.GetMeteorsSpeedCoeff() / 10000 * (2 + rand() % 7);
             float rotationSpeed = rand() % 6;
             transformsStorage.Add(meteor, TransformComponent({posX, posY}, {speedX, speedY}, sf::degrees(rotationSpeed), false));
             circleColliderStorage.Add(meteor, CircleColliderComponent(size_rand, {posX, posY}));
@@ -132,19 +132,19 @@ public:
             {
             case 0: // слева-справа, sideY ne ebet
                 if (sideX == 0) posX = -200.0f; // метеорит спавнится слева
-                else posX = 1280.0f + 200.0f; // метеорит спавнится cправа
-                posY = rand() % 721;
+                else posX = world.configReader.GetWindowWidth() + 200.0f; // метеорит спавнится cправа
+                posY = rand() % (world.configReader.GetWindowHeight() + 1);
                 break;
             case 1: // снизу-сверху, sideX ne ebet
                 if (sideY == 0) posY = -200.0f; // метеорит спавнится сверху
-                else posY = 720.0f + 200.0f; // метеорит спавнится cнизу
-                posX = rand() % 1281;
+                else posY = world.configReader.GetWindowHeight() + 200.0f; // метеорит спавнится cнизу
+                posX = rand() % (world.configReader.GetWindowWidth() + 1);
                 break;
             default: // по диагонали
                 if (sideX == 0) posX = -200.0f - rand() % 201;
-                else posX = 1280.0f + 200.0f + rand() % 201;
+                else posX = world.configReader.GetWindowWidth() + 200.0f + rand() % 201;
                 if (sideY == 0) posY = -200.0f - rand() % 201;
-                else posY = 720.0f + 200.0f + rand() % 201;
+                else posY = world.configReader.GetWindowHeight() + 200.0f + rand() % 201;
                 break;
             }
 
@@ -152,8 +152,8 @@ public:
             meteorTransform.position.y = posY;
 
             // Скорость
-            float speedX = (playerTransform.position.x - posX) / 2000.0f * (2 + rand() % 5);
-            float speedY = (playerTransform.position.y - posY) / 2000.0f * (2 + rand() % 7);
+            float speedX = (playerTransform.position.x - posX) * world.configReader.GetMeteorsSpeedCoeff() / 10000 * (2 + rand() % 5);
+            float speedY = (playerTransform.position.y - posY) * world.configReader.GetMeteorsSpeedCoeff() / 10000 * (2 + rand() % 7);
 
             meteorTransform.speed.x = speedX;
             meteorTransform.speed.y = speedY;

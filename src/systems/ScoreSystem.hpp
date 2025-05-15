@@ -39,7 +39,7 @@ public:
         for (int bulletId : _bullet) {
             auto& collision = _collisionComponents.Get(bulletId);
             auto& collisionList = collision.collisionWithComponents;
-            player.score += collisionList.size()*100;
+            player.score += collisionList.size()*world.configReader.GetKillPoints();
         }
         text->SetText("Score: " + std::to_string((int)player.score));
     }

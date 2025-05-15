@@ -43,67 +43,36 @@ std::string ConfigReader::GetValue(std::string prefix) {
 }
 
 int ConfigReader::GetWindowWidth() {
-    string winSizeStr = GetValue("Window"), width;
+    string winSizeStr = GetValue("K_Window"), width;
     stringstream ss(winSizeStr);
     getline(ss, width, ' ');
     return stoi(width);
 }
 
 int ConfigReader::GetWindowHeight() {
-    string winSizeStr = GetValue("Window"), width, height;
+    string winSizeStr = GetValue("K_Window"), width, height;
     stringstream ss(winSizeStr);
     getline(ss, width, ' ');
     getline(ss, height);
     return stoi(height);
 }
 
-float ConfigReader::GetXSpeed() {
-    string speedStr = GetValue("Speed"), xSpeed;
+float ConfigReader::GetRotationSpeed() {
+    string speedStr = GetValue("K_RotationSpeed"), rSpeed;
     stringstream ss(speedStr);
-    getline(ss, xSpeed, ' ');
-    return stof(xSpeed);
+    getline(ss, rSpeed, ' ');
+    return stof(rSpeed);
 }
 
-float ConfigReader::GetYSpeed() {
-    string speedStr = GetValue("Speed"), xSpeed, ySpeed;
-    stringstream ss(speedStr);
-    getline(ss, xSpeed, ' ');
-    getline(ss, ySpeed);
-    return stof(ySpeed);
-}
-
-float ConfigReader::GetLogoXScale() {
-    string scaleStr = GetValue("Scale"), xScale;
-    stringstream ss(scaleStr);
-    getline(ss, xScale, ' ');
-    return stof(xScale);
-}
-
-float ConfigReader::GetLogoYScale() {
-    string scaleStr = GetValue("Scale"), xScale, yScale;
-    stringstream ss(scaleStr);
-    getline(ss, xScale, ' ');
-    getline(ss, yScale);
-    return stof(yScale);
-}
-
-float ConfigReader::GetXPosition() {
-    string positionStr = GetValue("Position"), xPosition;
-    stringstream ss(positionStr);
-    getline(ss, xPosition, ' ');
-    return stof(xPosition);
-}
-
-float ConfigReader::GetYPosition() {
-    string positionStr = GetValue("Position"), xPosition, yPosition;
-    stringstream ss(positionStr);
-    getline(ss, xPosition, ' ');
-    getline(ss, yPosition);
-    return stof(yPosition);
+float ConfigReader::GetPlayerSize() {
+    string sizeStr = GetValue("K_PlayerSize"), size;
+    stringstream ss(sizeStr);
+    getline(ss, size, ' ');
+    return stof(size);
 }
 
 string ConfigReader::GetFontPath() {
-    string fontStr = GetValue("Font"), fPath;
+    string fontStr = GetValue("K_Font"), fPath;
 
     stringstream ss(fontStr);
     getline(ss, fPath, ' ');
@@ -111,7 +80,7 @@ string ConfigReader::GetFontPath() {
 }
 
 float ConfigReader::GetFontSize() {
-    string fontStr = GetValue("Font"), fPath, fSize;
+    string fontStr = GetValue("K_Font"), fPath, fSize;
 
     stringstream ss(fontStr);
     getline(ss, fPath, ' ');
@@ -120,50 +89,71 @@ float ConfigReader::GetFontSize() {
     return stof(fSize);
 }
 
-std::string ConfigReader::GetTexturePath(std::string tName) {
-    string textureStr = GetValue(tName), tPath;
-
-    stringstream ss(textureStr);
-    getline(ss, tPath, ' ');
-    return tPath;
+int ConfigReader::GetFrameRate() {
+    string frameRateStr = GetValue("K_FrameRate"), frameRate;
+    stringstream ss(frameRateStr);
+    getline(ss, frameRate, ' ');
+    return stoi(frameRate);
 }
 
-std::string ConfigReader::GetInitialTextureName() {
-    string initialTextureStr = GetValue("InitialTexture"), tName;
-
-    stringstream ss(initialTextureStr);
-    getline(ss, tName, ' ');
-    return tName;
+int ConfigReader::GetCoolDownCoeff() {
+    string coolDownCoeffStr = GetValue("K_CoolDownCoeff"), coolDownCoeff;
+    stringstream ss(coolDownCoeffStr);
+    getline(ss, coolDownCoeff, ' ');
+    return stoi(coolDownCoeff);
 }
 
-std::vector<std::string> ConfigReader::GetAllLogoNames() {
-    std::vector<std::string> logoNames;
-    std::istringstream stream(GetValue("LogoNames"));
-    std::string logoName;
+int ConfigReader::GetKillPoints() {
+    string killPointsStr = GetValue("K_KillPoints"), killPoints;
+    stringstream ss(killPointsStr);
+    getline(ss, killPoints, ' ');
+    return stoi(killPoints);
+}
 
-    while (stream >> logoName) {
-        logoNames.push_back(logoName);
+int ConfigReader::GetMeteorsCount() {
+    string meteorsCountStr = GetValue("K_MeteorsCount"), meteorsCount;
+    stringstream ss(meteorsCountStr);
+    getline(ss, meteorsCount, ' ');
+    return stoi(meteorsCount);
+}
+
+float ConfigReader::GetMeteorsSpeedCoeff() {
+    string meteorsSpeedCoeffStr = GetValue("K_MeteorsSpeedCoeff"), meteorsSpeedCoeff;
+    stringstream ss(meteorsSpeedCoeffStr);
+    getline(ss, meteorsSpeedCoeff, ' ');
+    return stof(meteorsSpeedCoeff);
+}
+
+std::vector<float> ConfigReader::GetPlayerColors() {
+    std::vector<float> playerColors;
+    std::istringstream stream(GetValue("K_PlayerColors"));
+    std::string playerColor;
+
+    while (stream >> playerColor) {
+        playerColors.push_back(stof(playerColor));
     }
 
-    return logoNames;
+    return playerColors;
 }
 
-std::vector<float> ConfigReader::GetLogoColors() {
-    std::vector<float> logoColors;
-    std::istringstream stream(GetValue("LogoColors"));
-    std::string logoColor;
-
-    while (stream >> logoColor) {
-        logoColors.push_back(stof(logoColor));
-    }
-
-    return logoColors;
+float ConfigReader::GetBulletXSize() {
+    string bulletSizeStr = GetValue("K_BulletSize"), bulletXSize;
+    stringstream ss(bulletSizeStr);
+    getline(ss, bulletXSize, ' ');
+    return stof(bulletXSize);
 }
 
-std::string ConfigReader::GetPauseText() {
-    string pauseTextStr = GetValue("PauseText"), pText;
+float ConfigReader::GetBulletYSize() {
+    string bulletSizeStr = GetValue("K_BulletSize"), bulletXSize, bulletYSize;
+    stringstream ss(bulletSizeStr);
+    getline(ss, bulletXSize, ' ');
+    getline(ss, bulletYSize);
+    return stof(bulletYSize);
+}
 
-    stringstream ss(pauseTextStr);
-    getline(ss, pText, ' ');
-    return pText;
+float ConfigReader::GetBulletSpeedCoeff() {
+    string bulletSpeedCoeffStr = GetValue("K_BulletSpeedCoeff"), bulletSpeedCoeff;
+    stringstream ss(bulletSpeedCoeffStr);
+    getline(ss, bulletSpeedCoeff, ' ');
+    return stof(bulletSpeedCoeff);
 }

@@ -23,7 +23,8 @@ class World {
 public:
     World() = default;
     sf::RenderWindow& window;
-    World(sf::RenderWindow& _window) : window(_window) {}
+    ConfigReader& configReader;
+    World(sf::RenderWindow& _window, ConfigReader& cr) : window(_window), configReader(cr) {}
     int CreateEntity() {
         int entityId;
         if (!_freeEntities.empty()) {

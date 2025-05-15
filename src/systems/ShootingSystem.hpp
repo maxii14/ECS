@@ -56,7 +56,7 @@ public:
             auto& player = _playerComponents.Get(ent);
             if (_buttonCode == sf::Keyboard::Key::Space)
             {
-                if (player.delay < 30) return; // delay
+                if (player.delay < world.configReader.GetFrameRate() / world.configReader.GetCoolDownCoeff()) return; // delay
                 player.delay = 0;
 
                 _buttonCode = sf::Keyboard::Key::Unknown;
@@ -91,8 +91,8 @@ public:
         // получаем вершину игрока, задаём позицию и скорость
         sf::Transform transform = playerCircle._polygon.getTransform();
         sf::Vector2f playerGunPos = transform.transformPoint(playerCircle._polygon.getPoint(0));
-        float bulletSpeedX = (playerGunPos.x - playerTransform.position.x) / 2.0f;
-        float bulletSpeedY = (playerGunPos.y - playerTransform.position.y) / 2.0f;
+        float bulletSpeedX = (playerGunPos.x - playerTransform.position.x) * world.configReader.GetBulletSpeedCoeff() / 10;
+        float bulletSpeedY = (playerGunPos.y - playerTransform.position.y) * world.configReader.GetBulletSpeedCoeff() / 10;
         // std::cout << bulletSpeedX << ", " << bulletSpeedY << std::endl;
         transformStorage.Add(bullet, TransformComponent(
             playerGunPos,
@@ -100,8 +100,8 @@ public:
             playerCircle._polygon.getRotation(),
             false
         ));
-        float bullet_xSize = 1.5f;
-        float bullet_ySize = 20.0f;
+        float bullet_xSize = world.configReader.GetBulletXSize();
+        float bullet_ySize = world.configReader.GetBulletYSize();
         rectangleStorage.Add(bullet, RectangleShapeComponent(bullet_xSize, bullet_ySize));
         bulletStorage.Add(bullet, BulletComponent());
         boxColliderStorage.Add(bullet, BoxColliderComponent(bullet_xSize, bullet_ySize, playerGunPos + sf::Vector2f{bullet_xSize / 2.0f, bullet_ySize / 2.0f}));
@@ -122,8 +122,8 @@ public:
         sf::Transform transform = playerCircle._polygon.getTransform();
         sf::Vector2f playerGunPos = transform.transformPoint(playerCircle._polygon.getPoint(0));
 
-        float bulletSpeedX = (playerGunPos.x - playerTransform.position.x) / 2.0f;
-        float bulletSpeedY = (playerGunPos.y - playerTransform.position.y) / 2.0f;
+        float bulletSpeedX = (playerGunPos.x - playerTransform.position.x) * world.configReader.GetBulletSpeedCoeff() / 10;
+        float bulletSpeedY = (playerGunPos.y - playerTransform.position.y) * world.configReader.GetBulletSpeedCoeff() / 10;
 
         bulletTransformComponent.position = playerGunPos;
         bulletTransformComponent.speed = {bulletSpeedX, bulletSpeedY};
